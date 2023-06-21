@@ -1,16 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout}"
+  lang="ja"
+>
   <head>
     <meta charset="UTF-8" />
     <title>Logout | milestone app</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
   </head>
   <body>
-    <h1>Logout</h1>
-    <form action="#" th:action="@{/logout}" method="post">
+    <div layout:fragment="layoutContent">
+      <h1>Logout</h1>
+      <form action="#" th:action="@{/logout}" method="post">
+        ほんまにええんか？
         <div class="mt-3">
-            <button type="submit" class="btn btn-primary">Logout</button>
+          <button type="submit" class="btn btn-primary">Logout</button>
         </div>
-    </form>
+      </form>
+    </div>
   </body>
 </html>
