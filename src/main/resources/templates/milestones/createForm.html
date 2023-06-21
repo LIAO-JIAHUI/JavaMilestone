@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Add Milestone | milestone app</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  </head>
+  <body>
+    <h1>Add Milestone</h1>
+    <a href="./milestones/list.html" th:href="@{/milestones}"
+      >マイルストーンページ</a
+    >
+
+    <form th:action="@{/milestones/createForm}" method="post" th:object="${milestoneForm}">
+      <label for="titleInput">New Title: </label><br />
+      <input id="titleInput" type="text" th:field="*{title}" /><br />
+      <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}">
+        (error)
+      </p>
+
+      <label for="descriptionInput">Description: </label><br />
+      <textarea
+        id="descriptionInput"
+        name="Description"
+        rows="10"
+        th:field="*{description}"
+      ></textarea
+      ><br />
+      <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}">
+        (error)
+      </p>
+
+      <input type="submit" value="作成" />
+    </form>
+  </body>
+</html>
