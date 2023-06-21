@@ -7,22 +7,21 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
-
 @Service
 @RequiredArgsConstructor
 public class MilestoneService {
     private final MilestoneRepository milestoneRepository;
-    
+
     public List<MilestoneEntity> findAll() {
         return milestoneRepository.findAll();
     }
-    
+
     @Transactional
     public void create(String title, String description) {
-        milestoneRepository.insert(title, description);
+        milestoneRepository.insert(title, description, "todo");
     }
 
-    public MilestoneEntity getById(long id){
+    public MilestoneEntity getById(long id) {
         return milestoneRepository.getById(id);
     }
 }

@@ -1,6 +1,11 @@
-insert into milestones (title, description) values ('2023年1月1日:ローンチ', 'ローンチ');
-insert into milestones (title, description) values ('2022年10月31日:プレリリース', '早期リリース');
-insert into milestones (title, description) values ('2022年7月10日:デモ開始', 'デモ作成中');
+insert into milestones (title, description, status) 
+values ('リストページへ遷移', 'トップページから「マイルストーン一覧」ボタンリストページへ遷移できる', 'done');
+insert into milestones (title, description, status) 
+values ('DBログインできる', 'DBに登録されたアカウントでログインできる', 'done');
+insert into milestones (title, description, status) 
+values ('マイルストーンの削除', 'マイルストーンを削除できる', 'todo');
+insert into milestones (title, description, status) 
+values ('作成日の追加', 'マイルストーンの作成日がわかる', 'in-progress');
 
 
 INSERT INTO USERS (USERNAME, PASSWORD, ENABLED) VALUES

@@ -22,6 +22,28 @@
       <a href="./milestones/list.html" th:href="@{/milestones}">戻る</a>
       <h2 th:text="${milestone.title}">ここにタイトルが入る</h2>
       <p th:text="${milestone.description}">ここに説明が入る</p>
+
+      <p>
+        status :
+        <th:block>
+          <th:block th:if="${milestone.status == 'todo'}">
+            <span class="badge bg-secondary">未着手</span>
+          </th:block>
+          <th:block th:if="${milestone.status == 'in-progress'}">
+            <span class="badge bg-primary">実行中</span>
+          </th:block>
+          <th:block th:if="${milestone.status == 'done'}">
+            <span class="badge bg-info">完了</span>
+          </th:block>
+        </th:block>
+      </p>
+      <p>
+        作成日：<span
+          th:text="${#dates.format(new java.util.Date(milestone.created_at), 'yyyy-MM-dd HH:mm')}"
+        >
+          ここに作成日が入る
+        </span>
+      </p>
     </div>
   </body>
 </html>

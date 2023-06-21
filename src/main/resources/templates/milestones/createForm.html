@@ -23,27 +23,25 @@
         method="post"
         th:object="${milestoneForm}"
       >
-        <label for="titleInput" class="form-label">New Title: </label><br />
+        <label for="titleInput" class="form-label">New Title: </label>
         <input
           id="titleInput"
           type="text"
           th:field="*{title}"
           class="form-control"
-        /><br />
+        />
         <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}">
           (error)
         </p>
 
-        <label for="descriptionInput" class="form-label">Description: </label
-        ><br />
+        <label for="descriptionInput" class="form-label">Description: </label>
         <textarea
           id="descriptionInput"
           name="Description"
           rows="10"
           th:field="*{description}"
           class="form-control"
-        ></textarea
-        ><br />
+        ></textarea>
         <p
           th:if="${#fields.hasErrors('description')}"
           th:errors="*{description}"

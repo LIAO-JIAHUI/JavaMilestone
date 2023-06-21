@@ -14,12 +14,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Controller
 @AllArgsConstructor
 @RequestMapping("/milestones")
 public class MilestoneController {
     private final MilestoneService milestoneService; // MilestoneServiceインスタンスの生成
+
     // GET (localhost:8080/milestones でアクセスできるようにする)
     // @GetMapping("/milestones")
     // showList(model[spring dataのモデルでModel型])を受け取る
@@ -34,6 +38,17 @@ public class MilestoneController {
         // ここでは、第一引数は”milestoneList”とする
         // 返り値としてview名を渡す。今回は milestones/listを準備する
         model.addAttribute("milestoneList", milestoneService.findAll());
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                UserDetails userDetails = (UserDetails) principal;
+                // 現在のユーザー情報を使用して何か処理を行う
+                String username = userDetails.getUsername();
+                model.addAttribute("username", username);
+            }
+        }
         return "milestones/list";
     }
 
@@ -47,8 +62,7 @@ public class MilestoneController {
         if (bindingResult.hasErrors()) {
             // return showCreationForm(milestonForm);
             return "milestones/createForm";
-        }
-        else {
+        } else {
             milestoneService.create(milestonForm.getTitle(), milestonForm.getDescription());
             return "redirect:/milestones";
         }
@@ -59,10 +73,10 @@ public class MilestoneController {
         Long longId = null;
         try {
             longId = Long.valueOf(id);
-        } catch( NumberFormatException  e ) {
+        } catch (NumberFormatException e) {
             return "redirect:/milestones";
         }
-        
+
         MilestoneEntity milestone = milestoneService.getById(longId);
         if (milestone == null) {
             return "redirect:/milestones";
