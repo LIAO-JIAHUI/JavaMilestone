@@ -17,15 +17,63 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
 
-    <title>レイアウト</title>
+    <title layout:title-pattern="$CONTENT_TITLE | $LAYOUT_TITLE">
+      milestone app
+    </title>
   </head>
   <body>
     <nav class="navbar navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="../index.html" th:href="@{/}"
-          >Milestone APP</a
+        <!-- <img src="../static/icon/mliestone_icon.svg" alt="mliestone_icon SVG" /> -->
+        <a class="navbar-brand" th:href="@{/}">
+          <!-- <img
+            src="../static/icon/mliestone_icon.svg"
+            alt="mliestone_icon SVG"
+          /> -->
+          Milestone APP</a
         >
+        <div th:if="${username}">
+          <div class="dropdown">
+            <!-- 切替ボタンの設定 -->
+            <button
+              type="button"
+              class="btn btn-secondary dropdown-toggle"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i
+                class="bi bi-person-circle navbar-brand"
+                width="32"
+                height="32"
+                viewBox="0 0 16 16"
+              ></i>
+              <span th:text="${username}" class="navbar-brand"
+                >(usernameがここに入る)</span
+              >
+            </button>
+            <!-- ドロップメニューの設定 -->
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Profile</a></li>
+              <li>
+                <a class="dropdown-item" th:href="@{/milestones}"
+                  >Milestone List</a
+                >
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <form action="#" th:action="@{/logout}" method="post">
+                  <button type="submit" class="">Logout</button>
+                </form>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </nav>
     <main

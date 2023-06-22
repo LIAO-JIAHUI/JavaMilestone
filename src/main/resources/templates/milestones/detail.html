@@ -7,20 +7,27 @@
   <!--xmlns:th～の記述-->
   <head>
     <meta charset="UTF-8" />
-    <title>Milestone | milestone app</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
+    <title>Milestone</title>
   </head>
   <body>
     <div layout:fragment="layoutContent" class="container">
       <h1>Milestone</h1>
 
       <a href="./milestones/list.html" th:href="@{/milestones}">戻る</a>
-      <h2 th:text="${milestone.title}">ここにタイトルが入る</h2>
+      <a
+        th:if="${username} == ${milestone.author}"
+        href="./milestones/list.html"
+        th:href="@{/milestones/{id}/edit(id=${milestone.id})}"
+      >
+        <i class="bi bi-pencil-square"></i>編集する</a
+      >
+      <a> <i class="bi bi-files"></i> 複製する</a>
+      <h2>
+        <span th:text="${milestone.title}">ここにタイトルが入る</span>
+      </h2>
+
+      <p>担当者 : <span th:text="${milestone.author}"></span></p>
+
       <p th:text="${milestone.description}">ここに説明が入る</p>
 
       <p>
@@ -33,17 +40,49 @@
             <span class="badge bg-primary">実行中</span>
           </th:block>
           <th:block th:if="${milestone.status == 'done'}">
-            <span class="badge bg-info">完了</span>
+            <span class="badge bg-info"><i class="bi bi-check"></i> 完了</span>
           </th:block>
         </th:block>
       </p>
       <p>
         作成日：<span
-          th:text="${#dates.format(new java.util.Date(milestone.created_at), 'yyyy-MM-dd HH:mm')}"
+          th:text="${#dates.format(milestone.createdAt, 'yyyy-MM-dd')}"
         >
           ここに作成日が入る
         </span>
       </p>
+      <p>
+        開始日：<span
+          th:if="${milestone.scheduleAt}"
+          th:text="${#dates.format(milestone.scheduleAt, 'yyyy-MM-dd')}"
+        >
+          ここに開始日が入る
+        </span>
+      </p>
+      <p>
+        期限日：<span
+          th:if="${milestone.deadlineAt}"
+          th:text="${#dates.format(milestone.deadlineAt, 'yyyy-MM-dd')}"
+        >
+          ここに期限日が入る
+        </span>
+      </p>
+      <form
+        th:if="${username} == ${milestone.author}"
+        th:action="@{/milestones/{id}(id=${milestone.id})}"
+        method="post"
+        onsubmit="return confirm('削除しますか？')"
+      >
+        <input type="hidden" name="_method" value="DELETE" />
+        <input
+          type="submit"
+          value="削除"
+          class="btn btn-danger"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          title="Delete this milestone"
+        />
+      </form>
     </div>
   </body>
 </html>

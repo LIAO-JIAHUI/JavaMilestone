@@ -7,24 +7,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Top Page | milestone app</title>
+    <title>Top Page</title>
   </head>
   <body>
     <div class="container" layout:fragment="layoutContent">
-      <h1 class="text-3xl font-bold underline">Milestone</h1>
+      <h1 class="text-3xl font-bold underline">Milestone APP</h1>
       <a
         href="./milestones/list.html"
         th:href="@{/milestones}"
         class="btn btn-primary mt-3"
-        >マイルストーン一覧</a
+        >マイルストーン一覧へ</a
       >
-      <br />
-
-      <form action="#" th:action="@{/logout}" method="post">
-        <div class="mt-3">
-          <button type="submit" class="btn btn-primary">Logout</button>
-        </div>
-      </form>
     </div>
   </body>
 </html>

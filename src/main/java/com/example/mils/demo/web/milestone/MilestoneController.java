@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.beans.BeanUtils;
 
 @Controller
 @AllArgsConstructor
@@ -24,50 +24,67 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class MilestoneController {
     private final MilestoneService milestoneService; // MilestoneServiceインスタンスの生成
 
-    // GET (localhost:8080/milestones でアクセスできるようにする)
-    // @GetMapping("/milestones")
-    // showList(model[spring dataのモデルでModel型])を受け取る
-    // (Javaのデータをthymeleafに渡す際にSpring data の Model を利用する)
-    // (ハンドラーメソッドでModelを呼び出すとSpringからメソッド生成時にmodelのインスタンスを受け取れる)
-    // Listを用いてmilestoneList[var/型推論]を作成、3つほどnew演算子でMilestoneEntityインスタンスを生成する(引数はMilestoneEntityを参照)
-
+    /**
+     * showList
+     * 全てのマイルストーンをSQLで取得してリストページに表示
+     * 
+     * @param model
+     * @return
+     */
     @GetMapping
     public String showList(Model model) {
-        // thymleafにmodelのオブジェクトを渡す
-        // 第１引数は、thymeleafが参照するキーを記入、第２引数は、thymeleafに渡すオブジェクト(List)を指定する
-        // ここでは、第一引数は”milestoneList”とする
-        // 返り値としてview名を渡す。今回は milestones/listを準備する
         model.addAttribute("milestoneList", milestoneService.findAll());
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof UserDetails) {
-                UserDetails userDetails = (UserDetails) principal;
-                // 現在のユーザー情報を使用して何か処理を行う
-                String username = userDetails.getUsername();
-                model.addAttribute("username", username);
-            }
-        }
         return "milestones/list";
     }
 
+    /**
+     * showCreationForm
+     * 作成ページへ遷移
+     * 
+     * @param milestoneForm
+     * @return
+     */
     @GetMapping("/createForm")
-    public String showCreationForm(@ModelAttribute MilestoneForm form) {
+    public String showCreationForm(@ModelAttribute MilestoneForm milestoneForm) {
         return "milestones/createForm";
     }
 
+    /**
+     * create
+     * 作成ページからのpostを受け取り
+     * 新しいマイルストーンをinsert
+     * 
+     * @param milestoneForm
+     * @param bindingResult
+     * @param model
+     * @return
+     */
     @PostMapping("/createForm") // POSTリクエストのアノテーション
-    public String create(@Validated MilestoneForm milestonForm, BindingResult bindingResult) {
+    public String create(@Validated MilestoneForm milestoneForm, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            // return showCreationForm(milestonForm);
             return "milestones/createForm";
         } else {
-            milestoneService.create(milestonForm.getTitle(), milestonForm.getDescription());
+            milestoneService.create(
+                    (String) model.getAttribute("username"),
+                    milestoneForm.getTitle(),
+                    milestoneForm.getDescription(),
+                    milestoneForm.getStatus(),
+                    milestoneForm.getScheduleAt(),
+                    milestoneForm.getDeadlineAt());
             return "redirect:/milestones";
         }
     }
 
+    /**
+     * showDetail
+     * 詳細ページへ遷移
+     * ルーティングのidを用いてsqlで一件取得
+     * idはString入力でlong型に変換
+     * 
+     * @param id
+     * @param model
+     * @return
+     */
     @GetMapping("/{id}")
     public String showDetail(@PathVariable("id") String id, Model model) {
         Long longId = null;
@@ -83,5 +100,91 @@ public class MilestoneController {
         }
         model.addAttribute("milestone", milestone);
         return "milestones/detail";
+    }
+
+    /**
+     * showEditForm
+     * 詳細ページから編集ページへ遷移
+     * idからMilestoneEntity取得し
+     * MilestoneFormへ必要な情報を入れてHTMLに渡す
+     * 
+     * @param milestoneForm
+     * @param id
+     * @param model
+     * @return
+     */
+    @GetMapping("/{id}/edit")
+    public String showEditForm(
+            @ModelAttribute MilestoneForm milestoneForm, @PathVariable("id") String id, Model model) {
+        Long longId = null;
+        try {
+            longId = Long.valueOf(id);
+        } catch (NumberFormatException e) {
+            return "redirect:/milestones";
+        }
+
+        MilestoneEntity milestone = milestoneService.getById(longId);
+        if (milestone == null || isNotAuthor(model, milestone)) {
+            return "redirect:/milestones";
+        }
+        BeanUtils.copyProperties(milestone, milestoneForm);
+        model.addAttribute("id", longId);
+        return "milestones/edit";
+    }
+
+    /**
+     * edit
+     * 編集ページへ遷移
+     * 
+     * @param id
+     * @param milestoneForm
+     * @param bindingResult
+     * @param model
+     * @return
+     */
+    @PutMapping("/{id}")
+    public String edit(@PathVariable("id") String id, @Validated MilestoneForm milestoneForm,
+            BindingResult bindingResult, Model model) {
+
+        Long longId = null;
+        try {
+            longId = Long.valueOf(id);
+        } catch (NumberFormatException e) {
+            return "redirect:/milestones";
+        }
+        if (bindingResult.hasErrors()) {
+            return "milestones/edit";
+        }
+        MilestoneEntity milestone = milestoneService.getById(longId);
+        if (milestone == null || isNotAuthor(model, milestone)) {
+            return "redirect:/milestones";
+        }
+        milestoneService.update(longId, milestoneForm.getTitle(),
+                milestoneForm.getDescription(),
+                milestoneForm.getStatus(), milestoneForm.getScheduleAt(),
+                milestoneForm.getDeadlineAt());
+        return "redirect:/milestones/{id}";
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable("id") String id, Model model) {
+        Long longId = null;
+        try {
+            longId = Long.valueOf(id);
+        } catch (NumberFormatException e) {
+            return "redirect:/milestones";
+        }
+
+        MilestoneEntity milestone = milestoneService.getById(longId);
+        if (milestone == null || isNotAuthor(model, milestone)) {
+            return "redirect:/milestones";
+        }
+
+        milestoneService.deleteById(longId);
+        return "redirect:/milestones";
+    }
+
+    private boolean isNotAuthor(Model model, MilestoneEntity milestone) {
+        return !((String) model.getAttribute("username")).equals(milestone.getAuthor());
     }
 }

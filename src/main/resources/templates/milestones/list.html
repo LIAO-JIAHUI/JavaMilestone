@@ -7,12 +7,11 @@
   <!--xmlns:th～の記述-->
   <head>
     <meta charset="UTF-8" />
-    <title>Milestone | milestone app</title>
+    <title>Milestone</title>
   </head>
   <body>
     <div layout:fragment="layoutContent" class="container">
       <h1>Milestone List</h1>
-      <p>ユーザー名 :<span th:text="${username}"></span></p>
       <a
         href="./milestones/createForm.html"
         th:href="@{/milestones/createForm}"
@@ -25,30 +24,38 @@
             <th>#</th>
             <th>title</th>
             <th>status</th>
+            <th>author</th>
+            <th>schedule</th>
+            <th>deadline</th>
           </tr>
         </thead>
         <tbody>
-          <tr th:each="item : ${milestoneList}">
-            <td th:text="${item.id}"></td>
+          <tr th:each="milestone : ${milestoneList}">
+            <td th:text="${milestone.id}"></td>
             <td>
               <a
-                th:text="${item.title}"
-                th:href="@{/milestones/{id}(id=${item.id})}"
+                th:text="${milestone.title}"
+                th:href="@{/milestones/{id}(id=${milestone.id})}"
               ></a>
             </td>
             <td>
               <th:block>
-                <th:block th:if="${item.status == 'todo'}">
+                <th:block th:if="${milestone.status == 'todo'}">
                   <span class="badge bg-secondary">未着手</span>
                 </th:block>
-                <th:block th:if="${item.status == 'in-progress'}">
+                <th:block th:if="${milestone.status == 'in-progress'}">
                   <span class="badge bg-primary">実行中</span>
                 </th:block>
-                <th:block th:if="${item.status == 'done'}">
-                  <span class="badge bg-info">完了</span>
+                <th:block th:if="${milestone.status == 'done'}">
+                  <span class="badge bg-info"
+                    ><i class="bi bi-check"></i> 完了</span
+                  >
                 </th:block>
               </th:block>
             </td>
+            <td th:text="${milestone.author}"></td>
+            <td th:text="${milestone.scheduleAt}"></td>
+            <td th:text="${milestone.deadlineAt}"></td>
           </tr>
         </tbody>
       </table>
