@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout}"
+  lang="ja"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+  </head>
+  <body>
+    <div class="container" layout:fragment="layoutContent">
+      <h1 class="text-3xl font-bold underline">Milestone APP</h1>
+      <a
+        href="./milestones/list.html"
+        th:href="@{/milestones}"
+        class="btn btn-primary mt-3"
+        >マイルストーン一覧へ</a
+      >
+    </div>
+  </body>
+</html>

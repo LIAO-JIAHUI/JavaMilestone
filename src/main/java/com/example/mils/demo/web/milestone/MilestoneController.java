@@ -2,6 +2,7 @@ package com.example.mils.demo.web.milestone;
 
 import com.example.mils.demo.domain.milestone.MilestoneEntity;
 import com.example.mils.demo.domain.milestone.MilestoneService;
+import com.example.mils.demo.web.user.UserGlobalEntity;
 
 import lombok.AllArgsConstructor;
 
@@ -9,13 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.BeanUtils;
 
 @Controller
@@ -44,9 +39,24 @@ public class MilestoneController {
      * @param milestoneForm
      * @return
      */
-    @GetMapping("/createForm")
-    public String showCreationForm(@ModelAttribute MilestoneForm milestoneForm) {
-        return "milestones/createForm";
+    @GetMapping("/create")
+    public String showCreationForm(@ModelAttribute MilestoneForm milestoneForm,
+            @RequestParam(required = false) String duplicateId) {
+        Long longDuplicateId = null;
+        if (duplicateId != null) {
+            try {
+                longDuplicateId = Long.valueOf(duplicateId);
+            } catch (NumberFormatException e) {
+                return "redirect:/milestones";
+            }
+
+            MilestoneEntity duplicateMilestone = milestoneService.getById(longDuplicateId);
+            if (duplicateMilestone != null) {
+                BeanUtils.copyProperties(duplicateMilestone, milestoneForm);
+            }
+        }
+
+        return "milestones/form";
     }
 
     /**
@@ -59,13 +69,13 @@ public class MilestoneController {
      * @param model
      * @return
      */
-    @PostMapping("/createForm") // POSTリクエストのアノテーション
+    @PostMapping("/create") // POSTリクエストのアノテーション
     public String create(@Validated MilestoneForm milestoneForm, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return "milestones/createForm";
+            return "milestones/form";
         } else {
             milestoneService.create(
-                    (String) model.getAttribute("username"),
+                    ((UserGlobalEntity) model.getAttribute("userHash")).getUsername(),
                     milestoneForm.getTitle(),
                     milestoneForm.getDescription(),
                     milestoneForm.getStatus(),
@@ -129,12 +139,13 @@ public class MilestoneController {
         }
         BeanUtils.copyProperties(milestone, milestoneForm);
         model.addAttribute("id", longId);
-        return "milestones/edit";
+        return "milestones/form";
     }
 
     /**
      * edit
      * 編集ページへ遷移
+     * 編集が成功したらDBにupdate
      * 
      * @param id
      * @param milestoneForm
@@ -153,7 +164,7 @@ public class MilestoneController {
             return "redirect:/milestones";
         }
         if (bindingResult.hasErrors()) {
-            return "milestones/edit";
+            return "milestones/form";
         }
         MilestoneEntity milestone = milestoneService.getById(longId);
         if (milestone == null || isNotAuthor(model, milestone)) {
@@ -166,6 +177,15 @@ public class MilestoneController {
         return "redirect:/milestones/{id}";
     }
 
+    /**
+     * delete
+     * 削除アクション
+     * 成功した場合DBにdelete
+     * 
+     * @param id
+     * @param model
+     * @return
+     */
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") String id, Model model) {
         Long longId = null;
@@ -184,7 +204,15 @@ public class MilestoneController {
         return "redirect:/milestones";
     }
 
+    /**
+     * isNotAuthor
+     * 作成者であるか確認する
+     * 
+     * @param model
+     * @param milestone
+     * @return
+     */
     private boolean isNotAuthor(Model model, MilestoneEntity milestone) {
-        return !((String) model.getAttribute("username")).equals(milestone.getAuthor());
+        return !(((UserGlobalEntity) model.getAttribute("userHash")).getUsername()).equals(milestone.getAuthor());
     }
 }

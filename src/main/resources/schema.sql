@@ -2,7 +2,9 @@ create table users(
 	username varchar_ignorecase(50) not null primary key,
 	password varchar_ignorecase(500) not null,
 	display_name VARCHAR(256),
-	enabled boolean not null
+	enabled boolean not null,
+	is_dark boolean not null DEFAULT false,
+	icon text
 );
 
 create table authorities (

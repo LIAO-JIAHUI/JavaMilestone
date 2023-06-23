@@ -14,6 +14,15 @@ import jakarta.servlet.http.HttpServletRequest;
 public class UserAuthUsecase {
     private final UserAuthRepository authRepository;
 
+    /**
+     * userCreate
+     * ユーザーを作成してDBに登録
+     * signupからpost
+     * 
+     * @param form
+     * @param request
+     * @throws ServletException
+     */
     public void userCreate(UserForm form, HttpServletRequest request) throws ServletException {
         authRepository.createUser(
                 form.getUsername(),

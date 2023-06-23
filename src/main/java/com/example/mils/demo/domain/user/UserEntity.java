@@ -11,4 +11,5 @@ public class UserEntity {
     private String username;
     private String password;
     private Boolean enabled;
+    private Boolean isDark;
 }
