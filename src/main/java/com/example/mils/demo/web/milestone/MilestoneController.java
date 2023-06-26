@@ -2,6 +2,8 @@ package com.example.mils.demo.web.milestone;
 
 import com.example.mils.demo.domain.milestone.MilestoneEntity;
 import com.example.mils.demo.domain.milestone.MilestoneService;
+import com.example.mils.demo.web.pushMessage.MilestoneListener;
+import com.example.mils.demo.web.pushMessage.MilestonePublisher;
 import com.example.mils.demo.web.user.UserGlobalEntity;
 
 import lombok.AllArgsConstructor;
@@ -11,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.beans.BeanUtils;
 
 @Controller
@@ -19,11 +22,13 @@ import org.springframework.beans.BeanUtils;
 public class MilestoneController {
     private final MilestoneService milestoneService; // MilestoneServiceインスタンスの生成
     private final MilestoneListController milestoneListController;
+    private final MilestonePublisher milestonePublisher;
+    private final MilestoneListener milestoneListener;
 
     /**
      * showList
      * 全てのマイルストーンをSQLで取得してリストページに表示
-     * 
+     * フィルタ、検索、並び替え
      * 
      * @param model
      * @return
@@ -36,6 +41,7 @@ public class MilestoneController {
             @RequestParam(required = false) String status,
             @RequestParam(required = false) String orderBy,
             @RequestParam(required = false) String order) {
+
         model.addAttribute("title", title);
         model.addAttribute("author", author);
         model.addAttribute("status", status);
@@ -43,7 +49,14 @@ public class MilestoneController {
         model.addAttribute("order", order);
         model.addAttribute("milestoneList", milestoneService.search(title, author, status, orderBy, order));
         model.addAttribute("completionRate", milestoneService.getCompletionRate("done") * 100 + " %");
+
         return "milestones/list";
+    }
+
+    @GetMapping("/gantt")
+    public String showGanttChart(Model model) {
+        model.addAttribute("milestoneList", milestoneService.search(null, null, null, null, null));
+        return "milestones/gantt";
     }
 
     /**
@@ -70,6 +83,7 @@ public class MilestoneController {
             }
         }
 
+        milestonePublisher.publishMilestoneEvent("新しいマイルストーンが作成されました。");
         return "milestones/form";
     }
 

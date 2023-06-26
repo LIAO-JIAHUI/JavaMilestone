@@ -53,3 +53,7 @@ INSERT INTO milestones (author, title, description, status, schedule_at, deadlin
 VALUES ('sugimori','sugimoriのタスク', 'マイルストーンを削除できる', 'todo', '2023-6-22', '2023-6-25');
 INSERT INTO milestones (author, title, description, status) 
 VALUES ('liao','liaoのタスク', 'マイルストーンの作成日がわかる', 'in-progress');
+
+INSERT INTO groups (name) values('CCレモン'),('BB団'),('ロケット団');
+
+INSERT INTO group_user(group_id,user_id,role) values(1,'arakawa','owner'),(1,'sugimori','owner'),(1,'liao','owner'),(2,'arakawa','editor');

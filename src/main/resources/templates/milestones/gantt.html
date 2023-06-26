@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout}"
+  lang="ja"
+>
+  <!--xmlns:th～の記述-->
+  <head>
+    <meta charset="UTF-8" />
+    <title>Milestone</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/frappe-gantt/0.5.0/frappe-gantt.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/frappe-gantt/0.5.0/frappe-gantt.min.js"></script>
+    <script th:inline="javascript">
+      const milestones = /*[[${milestoneList}]]*/ "milestones";
+      const v = milestones.map((m) => {
+        return {
+          id: m.id,
+          name: m.title,
+          description: m.description,
+          start: m.scheduleAt,
+          end: m.deadlineAt,
+          progress: m.status == "done" ? 100 : 0,
+        };
+      });
+      document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+          const gantt = new Gantt("#gantt", v, {
+            header_height: 50,
+            column_width: 30,
+            step: 24,
+            view_modes: ["Quarter Day", "Half Day", "Day", "Week", "Month"],
+            bar_height: 50,
+            bar_corner_radius: 3,
+            arrow_curve: 5,
+            padding: 18,
+            view_mode: "Day",
+            date_format: "YYYY-MM-DD",
+          });
+          console.log(v);
+        },
+        false
+      );
+    </script>
+    <style>
+      .gantt .grid-row:nth-child(even) {
+        fill: lightblue;
+      }
+      .gantt .grid-row {
+        fill: lightgray;
+      }
+    </style>
+  </head>
+  <body>
+    <div layout:fragment="layoutContent" class="container">
+      <div class="container-fluid mt-3">
+        <svg id="gantt"></svg>
+      </div>
+    </div>
+  </body>
+</html>

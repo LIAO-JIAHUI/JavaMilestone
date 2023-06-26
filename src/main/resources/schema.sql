@@ -27,3 +27,17 @@ create table milestones (
 	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	constraint fk_milestones_users foreign key(author) references users(username)
 );
+
+create table groups(
+	id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	name VARCHAR(256) NOT NULL
+);
+
+create table group_user(
+	id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	group_id BIGINT NOT NULL,
+	user_id varchar_ignorecase(50) NOT NULL,
+	role VARCHAR(256) NOT NULL DEFAULT 'viewer', -- owner editor viewer
+	FOREIGN KEY (group_id) REFERENCES groups(id),
+	FOREIGN KEY (user_id) REFERENCES users(username)
+);

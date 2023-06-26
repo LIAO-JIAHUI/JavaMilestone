@@ -93,7 +93,13 @@
                 th:insert="components/status-tag :: status-tag(${milestone.status})"
               ></th:block>
             </td>
-            <td th:text="${milestone.author}"></td>
+            <td>
+              <a
+                class="text-decoration-none text-reset"
+                th:text="${milestone.author}"
+                th:href="@{/milestones?author={author}(author=${milestone.author})}"
+              ></a>
+            </td>
             <td th:text="${milestone.scheduleAt}"></td>
             <td th:text="${milestone.deadlineAt}"></td>
           </tr>
