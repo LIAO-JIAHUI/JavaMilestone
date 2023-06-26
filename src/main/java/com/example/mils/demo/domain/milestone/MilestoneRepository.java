@@ -8,8 +8,9 @@ import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface MilestoneRepository {
-    @Select("select * from milestones order by ${orderBy} ${order}")
-    List<MilestoneEntity> findAll(@Param("orderBy") String orderBy, @Param("order") String order);
+    @Select("select * from milestones where title like #{title} and author like #{author} and status like #{status} order by ${orderBy} ${order}")
+    List<MilestoneEntity> search(String title, String author, String status, @Param("orderBy") String orderBy,
+            @Param("order") String order);
 
     @Select("select * from milestones where id=#{id}")
     MilestoneEntity getById(long id);

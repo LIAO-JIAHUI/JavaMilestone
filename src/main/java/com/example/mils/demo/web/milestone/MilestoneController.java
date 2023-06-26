@@ -18,18 +18,31 @@ import org.springframework.beans.BeanUtils;
 @RequestMapping("/milestones")
 public class MilestoneController {
     private final MilestoneService milestoneService; // MilestoneServiceインスタンスの生成
+    private final MilestoneListController milestoneListController;
 
     /**
      * showList
      * 全てのマイルストーンをSQLで取得してリストページに表示
      * 
+     * 
      * @param model
      * @return
      */
     @GetMapping
-    public String showList(Model model, @RequestParam(required = false) String orderBy,
+    public String showList(
+            Model model,
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String author,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String orderBy,
             @RequestParam(required = false) String order) {
-        model.addAttribute("milestoneList", milestoneService.findAll(orderBy, order));
+        model.addAttribute("title", title);
+        model.addAttribute("author", author);
+        model.addAttribute("status", status);
+        model.addAttribute("orderBy", orderBy);
+        model.addAttribute("order", order);
+        model.addAttribute("milestoneList", milestoneService.search(title, author, status, orderBy, order));
+        model.addAttribute("completionRate", milestoneService.getCompletionRate("done") * 100 + " %");
         return "milestones/list";
     }
 
@@ -84,6 +97,7 @@ public class MilestoneController {
                     milestoneForm.getDeadlineAt());
             return "redirect:/milestones";
         }
+
     }
 
     /**

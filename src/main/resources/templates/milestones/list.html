@@ -11,27 +11,71 @@
   </head>
   <body>
     <div layout:fragment="layoutContent" class="container">
-      <h1>Milestone List</h1>
-      <a th:href="@{/milestones/create}" class="btn btn-primary"
-        ><i class="bi bi-plus-square"></i> Add</a
-      >
+      <!-- <h1>Milestone List</h1> -->
+      <p th:text="${completionRate}">(completionRate)</p>
+      <div class="container my-3">
+        <div class="row">
+          <div class="col">
+            <a th:href="@{/milestones/create}" class="btn btn-primary"
+              ><i class="bi bi-plus-square"></i> Add</a
+            >
+          </div>
+          <div class="col">
+            <form method="get">
+              <input type="hidden" name="orderBy" th:value="${orderBy}" />
+              <input type="hidden" name="order" th:value="${order}" />
+              <div class="input-group">
+                <input
+                  type="text"
+                  name="title"
+                  class="form-control"
+                  th:value="${title}"
+                  placeholder="キーワードを入力"
+                />
+                <button class="btn btn-outline-secondary" type="submit">
+                  <i class="bi bi-search"></i> 検索
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
       <table class="table">
         <thead>
           <tr>
             <th>#</th>
             <th>
-              title<a
+              <div
+                th:replace="components/sort-head :: sort-button('title','title',${orderBy},${order},${title})"
+              ></div>
+              <a
                 data-bs-toggle="tooltip"
                 data-bs-placement="top"
-                title="detail to click title"
+                title="click title to see detail"
               >
                 <i class="bi bi-question-circle"></i>
               </a>
             </th>
-            <th>status</th>
-            <th>author</th>
-            <th>schedule</th>
-            <th>deadline</th>
+            <th>
+              <div
+                th:replace="components/sort-head :: sort-button(status,status,${orderBy},${order},${title})"
+              ></div>
+            </th>
+            <th>
+              <div
+                th:replace="components/sort-head :: sort-button(author,author,${orderBy},${order},${title})"
+              ></div>
+            </th>
+            <th>
+              <div
+                th:replace="components/sort-head :: sort-button(schedule_at,schedule,${orderBy},${order},${title})"
+              ></div>
+            </th>
+            <th>
+              <div
+                th:replace="components/sort-head :: sort-button(deadline_at,deadline,${orderBy},${order},${title})"
+              ></div>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -44,19 +88,10 @@
               ></a>
             </td>
             <td>
-              <th:block>
-                <th:block th:if="${milestone.status == 'todo'}">
-                  <span class="badge bg-secondary">ToDo</span>
-                </th:block>
-                <th:block th:if="${milestone.status == 'in-progress'}">
-                  <span class="badge bg-primary">Progress</span>
-                </th:block>
-                <th:block th:if="${milestone.status == 'done'}">
-                  <span class="badge bg-info"
-                    ><i class="bi bi-check"></i> Done</span
-                  >
-                </th:block>
-              </th:block>
+              <th:block
+                class="insert"
+                th:insert="components/status-tag :: status-tag(${milestone.status})"
+              ></th:block>
             </td>
             <td th:text="${milestone.author}"></td>
             <td th:text="${milestone.scheduleAt}"></td>

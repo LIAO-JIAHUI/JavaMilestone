@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <title>status tag</title>
+  </head>
+  <body>
+    <th:block th:fragment="status-tag(status)">
+      <th:block th:switch="${status}">
+        <span th:case="todo" class="badge bg-secondary">To Do</span>
+        <span th:case="in-progress" class="badge bg-primary">In Progress</span>
+        <span th:case="done" class="badge bg-info"
+          ><i class="bi bi-check"></i> Done</span
+        >
+      </th:block>
+    </th:block>
+  </body>
+</html>

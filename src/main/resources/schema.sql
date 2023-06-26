@@ -19,10 +19,11 @@ create table milestones (
     id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	author varchar_ignorecase(50) not null,
     title VARCHAR(256) NOT NULL,
-    description VARCHAR(256) NOT NULL,
+    description TEXT NOT NULL,
 	status VARCHAR(256) NOT NULL DEFAULT 'todo',
 	schedule_at	DATE,
 	deadline_at	DATE,
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	constraint fk_milestones_users foreign key(author) references users(username)
 );

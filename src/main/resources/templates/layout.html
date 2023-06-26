@@ -30,11 +30,19 @@
   </head>
   <body>
     <nav
-      class="navbar"
+      class="navbar sticky-top"
       th:classappend="${userHash} and ${userHash.isDark}? ' navbar-dark bg-dark' : ' navbar-light bg-light'"
     >
       <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/}">
+          <img
+            th:unless="${userHash}"
+            class="mx-2"
+            th:src="@{/images/mliestone_icon.svg}"
+            alt="mliestone_icon SVG"
+            width="25px"
+            height="25px"
+          />
           <img
             th:if="${userHash}"
             class="mx-2"
@@ -48,7 +56,6 @@
 
         <div th:if="${userHash}">
           <div class="dropdown">
-            <!-- 切替ボタンの設定 // TODO ADMINが危険なことを伝える -->
             <button
               type="button"
               class="btn rounded-pill d-flex align-items-center"
@@ -58,7 +65,7 @@
             >
               <img
                 th:if="${userHash}"
-                th:src="${userHash.iconString} ? ('data:image/jpeg;base64,' + ${userHash.iconString}) : @{/images/person-circle.png}"
+                th:src="${userHash.iconString} and ${userHash.iconString != ''} ? ('data:image/jpeg;base64,' + ${userHash.iconString}) : @{/images/person-circle.png}"
                 class="rounded-circle me-2"
                 style="object-fit: cover; width: 35px; height: 35px"
                 alt="Avatar"
@@ -77,6 +84,16 @@
                   >Milestone List<i class="fas fa-sun"></i
                 ></a>
               </li>
+              <th:block
+                th:if="${userHash} and ${#lists.contains(userHash.roles,'ROLE_ADMIN')}"
+              >
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" th:href="@{/h2-console}"
+                    >H2-console</a
+                  >
+                </li>
+              </th:block>
               <li><hr class="dropdown-divider" /></li>
               <li>
                 <form th:action="@{/user/darkmode}" th:method="patch">
@@ -109,6 +126,7 @@
       <p>Default content</p>
     </main>
     <script>
+      //data-bs-toggle="tooltip"であるElementをtootipElementに変換
       var tooltipTriggerList = [].slice.call(
         document.querySelectorAll('[data-bs-toggle="tooltip"]')
       );

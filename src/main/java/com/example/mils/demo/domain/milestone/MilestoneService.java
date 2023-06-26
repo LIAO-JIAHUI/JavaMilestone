@@ -1,6 +1,7 @@
 package com.example.mils.demo.domain.milestone;
 
 import java.util.List;
+import java.util.Arrays;
 import java.sql.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,12 +13,25 @@ import lombok.RequiredArgsConstructor;
 public class MilestoneService {
     private final MilestoneRepository milestoneRepository;
 
-    public List<MilestoneEntity> findAll(String orderBy, String order) {
-        if (orderBy == null)
+    public List<MilestoneEntity> search(String title, String author, String status, String orderBy, String order) {
+        List<String> expectedOrderBy = Arrays.asList("author", "title", "status", "schedule_at", "deadline_at");
+        List<String> expectedOrder = Arrays.asList("asc", "desc");
+        title = getLikeStatement(title);
+        author = getLikeStatement(author);
+        status = getLikeStatement(status);
+        if (orderBy == null || !expectedOrderBy.contains(orderBy))
             orderBy = "id";
-        if (order == null)
+        if (order == null || !expectedOrder.contains(order))
             order = "asc";
-        return milestoneRepository.findAll(orderBy, order);
+        return milestoneRepository.search(title, author, status, orderBy, order);
+    }
+
+    public double getCompletionRate(String status) {
+        List<MilestoneEntity> milestoneList = this.search(null, null, null, null, null);
+
+        double statusCount = milestoneList.stream().filter(i -> i.getStatus().equals(status)).count();
+        double completionRate = (double) (statusCount / milestoneList.size());
+        return completionRate;
     }
 
     @Transactional
@@ -38,4 +52,7 @@ public class MilestoneService {
         milestoneRepository.deleteById(id);
     }
 
+    private String getLikeStatement(String value) {
+        return value == null ? "%%" : "%" + value + "%";
+    }
 }

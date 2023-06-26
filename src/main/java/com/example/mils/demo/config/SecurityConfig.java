@@ -29,6 +29,7 @@ public class SecurityConfig {
                                 .authorizeHttpRequests(authz -> authz
                                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
                                                 .permitAll()
+                                                // .requestMatchers("/api/**").permitAll() // api アクセス
                                                 .requestMatchers("/index").permitAll()
                                                 .requestMatchers("/login").permitAll()
                                                 .requestMatchers("/user/**").permitAll()

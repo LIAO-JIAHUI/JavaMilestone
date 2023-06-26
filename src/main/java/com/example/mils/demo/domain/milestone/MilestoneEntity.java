@@ -1,6 +1,7 @@
 package com.example.mils.demo.domain.milestone;
 
 import java.sql.*;
+import java.sql.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,4 +18,5 @@ public class MilestoneEntity {
     private Date scheduleAt;
     private Date deadlineAt;
     private Timestamp createdAt;
+    private Timestamp updatedAt;
 }

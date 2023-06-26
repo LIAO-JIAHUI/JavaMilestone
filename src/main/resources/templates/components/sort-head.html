@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <title>ソート機能付きheader</title>
+  </head>
+  <body>
+    <th:block
+      th:fragment="sort-button(keyname,label,orderBy,order,searchTitle)"
+    >
+      <th:block th:if="${keyname != orderBy}">
+        <a
+          th:href="@{?title={title}&orderBy={orderBy}&order=asc(orderBy=${keyname},title=${searchTitle})}"
+          class="text-decoration-none text-reset"
+        >
+          [[${label}]]</a
+        >
+      </th:block>
+      <th:block th:if="${keyname == orderBy} and ${order == 'asc'}">
+        <a
+          th:href="@{?title={title}&orderBy={orderBy}&order=desc(orderBy=${keyname},title=${searchTitle})}"
+          class="text-decoration-none text-reset"
+        >
+          [[${label}]]
+          <i class="bi bi-arrow-down"></i
+        ></a>
+      </th:block>
+
+      <th:block th:if="${keyname == orderBy} and ${order == 'desc'}">
+        <a
+          th:href="@{?title={title}(title=${searchTitle})}"
+          class="text-decoration-none text-reset"
+        >
+          [[${label}]]
+          <i class="bi bi-arrow-up"></i
+        ></a>
+      </th:block>
+    </th:block>
+  </body>
+</html>
