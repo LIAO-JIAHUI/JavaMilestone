@@ -2,6 +2,8 @@ package com.example.mils.demo.web;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
+
+import com.example.mils.demo.domain.user.UserEntity;
 import com.example.mils.demo.web.user.UserGlobalEntity;
 import com.example.mils.demo.web.user.UserService;
 
@@ -28,8 +30,13 @@ public class GlobalControllerAdvice {
                 UserDetails userDetails = (UserDetails) principal;
                 String username = userDetails.getUsername();
                 Collection<? extends GrantedAuthority> roles = authentication.getAuthorities();
-                Boolean isDark = userService.getDarkMode(username);
-                userGlobalEntity = new UserGlobalEntity(username, roles, isDark);
+                List<String> roleStrings = new ArrayList<>();
+                for (var role : roles) {
+                    roleStrings.add(role.getAuthority());
+                }
+                UserEntity user = userService.find(username);
+
+                userGlobalEntity = new UserGlobalEntity(username, roleStrings, user.getIsDark(), user.getIcon());
             }
         }
         return userGlobalEntity;

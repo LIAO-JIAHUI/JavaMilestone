@@ -13,13 +13,21 @@
     <div layout:fragment="layoutContent" class="container">
       <h1>Milestone List</h1>
       <a th:href="@{/milestones/create}" class="btn btn-primary"
-        ><i class="bi bi-plus-square"></i> 新しく作成</a
+        ><i class="bi bi-plus-square"></i> Add</a
       >
       <table class="table">
         <thead>
           <tr>
             <th>#</th>
-            <th>title</th>
+            <th>
+              title<a
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                title="detail to click title"
+              >
+                <i class="bi bi-question-circle"></i>
+              </a>
+            </th>
             <th>status</th>
             <th>author</th>
             <th>schedule</th>
@@ -38,14 +46,14 @@
             <td>
               <th:block>
                 <th:block th:if="${milestone.status == 'todo'}">
-                  <span class="badge bg-secondary">未着手</span>
+                  <span class="badge bg-secondary">ToDo</span>
                 </th:block>
                 <th:block th:if="${milestone.status == 'in-progress'}">
-                  <span class="badge bg-primary">実行中</span>
+                  <span class="badge bg-primary">Progress</span>
                 </th:block>
                 <th:block th:if="${milestone.status == 'done'}">
                   <span class="badge bg-info"
-                    ><i class="bi bi-check"></i> 完了</span
+                    ><i class="bi bi-check"></i> Done</span
                   >
                 </th:block>
               </th:block>

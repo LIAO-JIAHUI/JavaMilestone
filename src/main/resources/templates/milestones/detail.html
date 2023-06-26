@@ -13,21 +13,21 @@
     <div layout:fragment="layoutContent" class="container">
       <h1>Milestone</h1>
 
-      <a href="./milestones/list.html" th:href="@{/milestones}">戻る</a>
+      <a href="./milestones/list.html" th:href="@{/milestones}">back</a>
       <a
         th:if="${userHash.username} == ${milestone.author}"
         th:href="@{/milestones/{id}/edit(id=${milestone.id})}"
       >
-        <i class="bi bi-pencil-square"></i>編集する</a
+        <i class="bi bi-pencil-fill"></i> Edit</a
       >
       <a th:href="@{/milestones/create?duplicateId={id}(id=${milestone.id})}">
-        <i class="bi bi-files"></i> 複製する</a
+        <i class="bi bi-files"></i> Copy</a
       >
       <h2>
         <span th:text="${milestone.title}">ここにタイトルが入る</span>
       </h2>
 
-      <p>担当者 : <span th:text="${milestone.author}"></span></p>
+      <p>author : <span th:text="${milestone.author}"></span></p>
 
       <p th:text="${milestone.description}">ここに説明が入る</p>
 
@@ -35,25 +35,25 @@
         status :
         <th:block>
           <th:block th:if="${milestone.status == 'todo'}">
-            <span class="badge bg-secondary">未着手</span>
+            <span class="badge bg-secondary">To Do</span>
           </th:block>
           <th:block th:if="${milestone.status == 'in-progress'}">
-            <span class="badge bg-primary">実行中</span>
+            <span class="badge bg-primary">In Progress</span>
           </th:block>
           <th:block th:if="${milestone.status == 'done'}">
-            <span class="badge bg-info"><i class="bi bi-check"></i> 完了</span>
+            <span class="badge bg-info"><i class="bi bi-check"></i> Done</span>
           </th:block>
         </th:block>
       </p>
       <p>
-        作成日：<span
-          th:text="${#dates.format(milestone.createdAt, 'yyyy-MM-dd')}"
-        >
+        created :
+        <span th:text="${#dates.format(milestone.createdAt, 'yyyy-MM-dd')}">
           ここに作成日が入る
         </span>
       </p>
       <p>
-        開始日：<span
+        start :
+        <span
           th:if="${milestone.scheduleAt}"
           th:text="${#dates.format(milestone.scheduleAt, 'yyyy-MM-dd')}"
         >
@@ -61,7 +61,7 @@
         </span>
       </p>
       <p>
-        期限日：<span
+        deadline :<span
           th:if="${milestone.deadlineAt}"
           th:text="${#dates.format(milestone.deadlineAt, 'yyyy-MM-dd')}"
         >

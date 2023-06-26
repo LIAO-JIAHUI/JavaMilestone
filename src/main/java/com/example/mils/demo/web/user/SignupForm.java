@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Data
-public class UserForm {
+public class SignupForm {
     @Size(max = 20)
     @Pattern(regexp = "^[a-zA-Z0-9]*$")
     @NotNull

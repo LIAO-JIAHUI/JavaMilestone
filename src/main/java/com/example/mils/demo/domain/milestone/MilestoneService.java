@@ -12,8 +12,12 @@ import lombok.RequiredArgsConstructor;
 public class MilestoneService {
     private final MilestoneRepository milestoneRepository;
 
-    public List<MilestoneEntity> findAll() {
-        return milestoneRepository.findAll();
+    public List<MilestoneEntity> findAll(String orderBy, String order) {
+        if (orderBy == null)
+            orderBy = "id";
+        if (order == null)
+            order = "asc";
+        return milestoneRepository.findAll(orderBy, order);
     }
 
     @Transactional

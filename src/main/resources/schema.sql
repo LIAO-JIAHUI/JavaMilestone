@@ -4,7 +4,7 @@ create table users(
 	display_name VARCHAR(256),
 	enabled boolean not null,
 	is_dark boolean not null DEFAULT false,
-	icon text
+	icon longtext
 );
 
 create table authorities (

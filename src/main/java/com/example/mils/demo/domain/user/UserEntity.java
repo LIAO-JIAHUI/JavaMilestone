@@ -6,10 +6,10 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 public class UserEntity {
-    // フィールドの定義
-    private long id;
     private String username;
     private String password;
+    private String displayName;
     private Boolean enabled;
     private Boolean isDark;
+    private String icon;
 }

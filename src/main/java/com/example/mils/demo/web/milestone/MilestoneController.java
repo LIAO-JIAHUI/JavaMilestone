@@ -27,8 +27,9 @@ public class MilestoneController {
      * @return
      */
     @GetMapping
-    public String showList(Model model) {
-        model.addAttribute("milestoneList", milestoneService.findAll());
+    public String showList(Model model, @RequestParam(required = false) String orderBy,
+            @RequestParam(required = false) String order) {
+        model.addAttribute("milestoneList", milestoneService.findAll(orderBy, order));
         return "milestones/list";
     }
 

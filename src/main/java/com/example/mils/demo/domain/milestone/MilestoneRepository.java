@@ -4,11 +4,12 @@ import java.util.List;
 import java.sql.*;
 
 import org.apache.ibatis.annotations.*;
+// import org.springframework.data.jpa.repository.JpaRepository;
 
 @Mapper
 public interface MilestoneRepository {
-    @Select("select * from milestones")
-    List<MilestoneEntity> findAll();
+    @Select("select * from milestones order by ${orderBy} ${order}")
+    List<MilestoneEntity> findAll(@Param("orderBy") String orderBy, @Param("order") String order);
 
     @Select("select * from milestones where id=#{id}")
     MilestoneEntity getById(long id);

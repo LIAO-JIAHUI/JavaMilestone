@@ -61,16 +61,16 @@
             class="form-select"
           >
             <option value="todo" th:selected="${status} ? ${status == 'todo'}">
-              未着手
+              ToDo
             </option>
             <option
               value="in-progress"
               th:selected="${status} ? ${status == 'in-progress'}"
             >
-              実行中
+              In Progress
             </option>
             <option value="done" th:selected="${status} ? ${status == 'done'}">
-              完了
+              Done
             </option>
           </select>
         </div>
@@ -116,10 +116,10 @@
         </div>
         <div class="text-center center-block mt-3">
           <a href="./milestones/list.html" th:href="@{/milestones}" class="mx-2"
-            >キャンセル</a
+            >cancel</a
           >
           <button type="submit" class="btn btn-primary mx-2">
-            [[${id}?'更新':'作成']]
+            [[${id}?'Update':'Create']]
           </button>
         </div>
       </form>

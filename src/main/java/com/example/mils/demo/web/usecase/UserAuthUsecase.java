@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import com.example.mils.demo.web.user.UserAuthRepository;
-import com.example.mils.demo.web.user.UserForm;
+import com.example.mils.demo.web.user.SignupForm;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,7 +23,7 @@ public class UserAuthUsecase {
      * @param request
      * @throws ServletException
      */
-    public void userCreate(UserForm form, HttpServletRequest request) throws ServletException {
+    public void userCreate(SignupForm form, HttpServletRequest request) throws ServletException {
         authRepository.createUser(
                 form.getUsername(),
                 form.getPassword());

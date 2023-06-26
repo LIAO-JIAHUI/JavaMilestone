@@ -8,6 +8,11 @@
     <meta charset="UTF-8" />
     <meta name="description" content="common-meta" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"
+    ></script>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css"
@@ -18,71 +23,77 @@
       integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
       crossorigin="anonymous"
     />
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-      crossorigin="anonymous"
-    ></script>
 
     <title layout:title-pattern="$CONTENT_TITLE | $LAYOUT_TITLE">
       milestone app
     </title>
   </head>
   <body>
-    <nav class="navbar navbar-dark bg-dark">
+    <nav
+      class="navbar"
+      th:classappend="${userHash} and ${userHash.isDark}? ' navbar-dark bg-dark' : ' navbar-light bg-light'"
+    >
       <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/}">
           <img
+            th:if="${userHash}"
             class="mx-2"
-            th:src="@{/images/mliestone_icon.svg}"
+            th:src="(${userHash} and ${!userHash.isDark})?@{/images/mliestone_icon.svg}:@{/images/mliestone_icon_white.svg}"
             alt="mliestone_icon SVG"
             width="25px"
             height="25px"
           />
           Milestone APP</a
         >
+
         <div th:if="${userHash}">
           <div class="dropdown">
-            <!-- 切替ボタンの設定 -->
+            <!-- 切替ボタンの設定 // TODO ADMINが危険なことを伝える -->
             <button
               type="button"
-              class="btn btn-secondary dropdown-toggle"
+              class="btn rounded-pill d-flex align-items-center"
+              th:classappend="${userHash} and ${#lists.contains(userHash.roles,'ROLE_ADMIN')}? 'btn-danger' : 'btn-outline-secondary'"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              <i
-                class="bi bi-person-circle navbar-brand"
-                width="32"
-                height="32"
-                viewBox="0 0 16 16"
-              ></i>
+              <img
+                th:if="${userHash}"
+                th:src="${userHash.iconString} ? ('data:image/jpeg;base64,' + ${userHash.iconString}) : @{/images/person-circle.png}"
+                class="rounded-circle me-2"
+                style="object-fit: cover; width: 35px; height: 35px"
+                alt="Avatar"
+              />
               <span th:text="${userHash.username}" class="navbar-brand"
                 >(usernameがここに入る)</span
               >
             </button>
             <!-- ドロップメニューの設定 -->
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Profile</a></li>
+              <li>
+                <a class="dropdown-item" th:href="@{/user/profile}">Profile</a>
+              </li>
               <li>
                 <a class="dropdown-item" th:href="@{/milestones}"
-                  >Milestone List</a
-                >
+                  >Milestone List<i class="fas fa-sun"></i
+                ></a>
               </li>
               <li><hr class="dropdown-divider" /></li>
               <li>
-                <form
-                  action="#"
-                  th:action="@{/user/darkmode}"
-                  th:method="patch"
-                >
-                  <button type="submit" class="">
-                    Change [[${userHash.isDark}?'LightMode':'DarkMode']]
+                <form th:action="@{/user/darkmode}" th:method="patch">
+                  <button type="submit" class="dropdown-item">
+                    <th:block th:if="${userHash.isDark}"
+                      ><i class="bi bi-sun"></i> LightMode</th:block
+                    >
+                    <th:block th:if="${!userHash.isDark}"
+                      ><i class="bi bi-moon-fill"></i> DarkMode</th:block
+                    >
                   </button>
                 </form>
               </li>
+              <li></li>
               <li>
-                <form action="#" th:action="@{/logout}" method="post">
-                  <button type="submit" class="">Logout</button>
+                <form th:action="@{/logout}" method="post">
+                  <button type="submit" class="dropdown-item">Logout</button>
                 </form>
               </li>
             </ul>
@@ -97,5 +108,13 @@
     >
       <p>Default content</p>
     </main>
+    <script>
+      var tooltipTriggerList = [].slice.call(
+        document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      );
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+      });
+    </script>
   </body>
 </html>
