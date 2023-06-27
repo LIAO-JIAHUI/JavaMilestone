@@ -4,7 +4,6 @@ var privateStompClient = null;
 var socket = new SockJS("/ws");
 stompClient = Stomp.over(socket);
 stompClient.connect({}, function (frame) {
-  console.log(frame);
   stompClient.subscribe("/all/messages", function (result) {
     show(JSON.parse(result.body));
   });
@@ -14,9 +13,7 @@ stompClient.connect({}, function (frame) {
 socket = new SockJS("/ws");
 privateStompClient = Stomp.over(socket);
 privateStompClient.connect({}, function (frame) {
-  console.log(frame);
   privateStompClient.subscribe("/user/specific", function (result) {
-    console.log(result.body);
     show(JSON.parse(result.body));
   });
 });

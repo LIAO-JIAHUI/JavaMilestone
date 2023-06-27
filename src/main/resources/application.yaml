@@ -18,6 +18,9 @@ spring:
       filter:
         enabled: true
 
+server:
+  port: 8000
+
 logging:
   level:
     org:

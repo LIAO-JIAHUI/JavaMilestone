@@ -34,6 +34,7 @@ public class SecurityConfig {
                                                 // .requestMatchers("/api/**").permitAll() // api アクセス
                                                 .requestMatchers("/index").permitAll()
                                                 .requestMatchers("/login").permitAll()
+                                                .requestMatchers("/firebase-messaging-sw.js").permitAll()
                                                 .requestMatchers("/user/**").permitAll()
                                                 .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**"))
                                                 .hasRole("ADMIN")

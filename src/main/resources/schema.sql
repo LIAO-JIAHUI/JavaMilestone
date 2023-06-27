@@ -7,6 +7,13 @@ create table users(
 	icon longtext
 );
 
+create table user_tokens (
+	id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	username varchar_ignorecase(50) not null,
+	token TEXT NOT NULL,
+	constraint fk_user_tokens_users foreign key(username) references users(username)
+);
+
 create table authorities (
 	username varchar_ignorecase(50) not null,
 	authority varchar_ignorecase(50) not null,
