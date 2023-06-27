@@ -21,6 +21,7 @@ public class SecurityConfig {
                 http.formLogin(login -> login
                                 .loginProcessingUrl("/login")
                                 .loginPage("/login")
+                                // .successForwardUrl("/milestones")
                                 .defaultSuccessUrl("/milestones")
                                 .failureUrl("/login?error")
                                 .permitAll()).logout(logout -> logout
@@ -29,6 +30,7 @@ public class SecurityConfig {
                                 .authorizeHttpRequests(authz -> authz
                                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
                                                 .permitAll()
+                                                .requestMatchers("/", "/ws/**").permitAll()
                                                 // .requestMatchers("/api/**").permitAll() // api アクセス
                                                 .requestMatchers("/index").permitAll()
                                                 .requestMatchers("/login").permitAll()

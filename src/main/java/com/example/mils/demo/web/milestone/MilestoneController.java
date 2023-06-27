@@ -2,8 +2,7 @@ package com.example.mils.demo.web.milestone;
 
 import com.example.mils.demo.domain.milestone.MilestoneEntity;
 import com.example.mils.demo.domain.milestone.MilestoneService;
-import com.example.mils.demo.web.pushMessage.MilestoneListener;
-import com.example.mils.demo.web.pushMessage.MilestonePublisher;
+import com.example.mils.demo.web.pushMessage.Notification;
 import com.example.mils.demo.web.user.UserGlobalEntity;
 
 import lombok.AllArgsConstructor;
@@ -13,17 +12,15 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.beans.BeanUtils;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 @Controller
 @AllArgsConstructor
 @RequestMapping("/milestones")
 public class MilestoneController {
     private final MilestoneService milestoneService; // MilestoneServiceインスタンスの生成
-    private final MilestoneListController milestoneListController;
-    private final MilestonePublisher milestonePublisher;
-    private final MilestoneListener milestoneListener;
+    private final SimpMessagingTemplate messagingTemplate;
 
     /**
      * showList
@@ -83,7 +80,6 @@ public class MilestoneController {
             }
         }
 
-        milestonePublisher.publishMilestoneEvent("新しいマイルストーンが作成されました。");
         return "milestones/form";
     }
 
@@ -96,22 +92,26 @@ public class MilestoneController {
      * @param bindingResult
      * @param model
      * @return
+     * @throws Exception
      */
     @PostMapping("/create") // POSTリクエストのアノテーション
-    public String create(@Validated MilestoneForm milestoneForm, BindingResult bindingResult, Model model) {
+    public String create(@Validated MilestoneForm milestoneForm, BindingResult bindingResult, Model model)
+            throws Exception {
         if (bindingResult.hasErrors()) {
             return "milestones/form";
         } else {
+            UserGlobalEntity user = (UserGlobalEntity) model.getAttribute("userHash");
             milestoneService.create(
-                    ((UserGlobalEntity) model.getAttribute("userHash")).getUsername(),
+                    user.getUsername(),
                     milestoneForm.getTitle(),
                     milestoneForm.getDescription(),
                     milestoneForm.getStatus(),
                     milestoneForm.getScheduleAt(),
                     milestoneForm.getDeadlineAt());
+            messagingTemplate.convertAndSend("/all/messages",
+                    new Notification(null, milestoneForm.getTitle(), "create", null, getUser(model)));
             return "redirect:/milestones";
         }
-
     }
 
     /**
@@ -173,7 +173,7 @@ public class MilestoneController {
 
     /**
      * edit
-     * 編集ページへ遷移
+     * 編集ページ
      * 編集が成功したらDBにupdate
      * 
      * @param id
@@ -185,7 +185,6 @@ public class MilestoneController {
     @PutMapping("/{id}")
     public String edit(@PathVariable("id") String id, @Validated MilestoneForm milestoneForm,
             BindingResult bindingResult, Model model) {
-
         Long longId = null;
         try {
             longId = Long.valueOf(id);
@@ -203,6 +202,9 @@ public class MilestoneController {
                 milestoneForm.getDescription(),
                 milestoneForm.getStatus(), milestoneForm.getScheduleAt(),
                 milestoneForm.getDeadlineAt());
+
+        messagingTemplate.convertAndSend("/all/messages",
+                new Notification(id, milestoneForm.getTitle(), "edit", null, getUser(model)));
         return "redirect:/milestones/{id}";
     }
 
@@ -229,6 +231,8 @@ public class MilestoneController {
             return "redirect:/milestones";
         }
 
+        messagingTemplate.convertAndSend("/all/messages",
+                new Notification(id, milestoneService.getTitleById(longId), "delete", null, getUser(model)));
         milestoneService.deleteById(longId);
         return "redirect:/milestones";
     }
@@ -243,5 +247,10 @@ public class MilestoneController {
      */
     private boolean isNotAuthor(Model model, MilestoneEntity milestone) {
         return !(((UserGlobalEntity) model.getAttribute("userHash")).getUsername()).equals(milestone.getAuthor());
+    }
+
+    private String getUser(Model model) {
+        UserGlobalEntity user = (UserGlobalEntity) (model.getAttribute("userHash"));
+        return user.getUsername();
     }
 }

@@ -15,6 +15,9 @@ public interface MilestoneRepository {
     @Select("select * from milestones where id=#{id}")
     MilestoneEntity getById(long id);
 
+    @Select("select title from milestones where id=#{id}")
+    String getTitleById(long id);
+
     @Update("update milestones set title=#{title}, description=#{description}, status=#{status}, schedule_at=#{scheduleAt}, deadline_at=#{deadlineAt} where id=#{id}")
     void update(long id, String title, String description, String status, Date scheduleAt, Date deadlineAt);
 

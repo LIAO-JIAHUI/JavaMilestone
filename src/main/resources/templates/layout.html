@@ -2,6 +2,7 @@
 <html
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  xmlns:th="http://www.thymeleaf.org"
   th:data-bs-theme="${userHash} and ${userHash.isDark} ? 'dark':'light'"
 >
   <head>
@@ -24,6 +25,16 @@
       crossorigin="anonymous"
     />
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"
+      integrity="sha512-CryKbMe7sjSCDPl18jtJI5DR5jtkUWxPXWaLCst6QjH8wxDexfRJic2WRmRXmstr2Y8SxDDWuBO6CQC6IE4KTA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script th:src="@{/app.js}"></script>
     <title layout:title-pattern="$CONTENT_TITLE | $LAYOUT_TITLE">
       milestone app
     </title>
@@ -125,6 +136,17 @@
     >
       <p>Default content</p>
     </main>
+
+    <div
+      id="messages"
+      class="toast-container position-fixed bottom-0 end-0 p-3"
+    ></div>
+
+    <th:block
+      class="insert"
+      th:insert="components/toast-template :: toast-template"
+    ></th:block>
+
     <script>
       //data-bs-toggle="tooltip"であるElementをtootipElementに変換
       var tooltipTriggerList = [].slice.call(

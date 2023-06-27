@@ -48,6 +48,10 @@ public class MilestoneService {
         return milestoneRepository.getById(id);
     }
 
+    public String getTitleById(long id) {
+        return milestoneRepository.getTitleById(id);
+    }
+
     public void deleteById(long id) {
         milestoneRepository.deleteById(id);
     }

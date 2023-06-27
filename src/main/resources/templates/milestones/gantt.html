@@ -22,7 +22,8 @@
           description: m.description,
           start: m.scheduleAt,
           end: m.deadlineAt,
-          progress: m.status == "done" ? 100 : 0,
+          progress:
+            m.status == "done" ? 100 : m.status == "in-progress" ? 50 : 0,
         };
       });
       document.addEventListener(
@@ -32,25 +33,45 @@
             header_height: 50,
             column_width: 30,
             step: 24,
-            view_modes: ["Quarter Day", "Half Day", "Day", "Week", "Month"],
-            bar_height: 50,
+            view_modes: ["Day"],
+            bar_height: 30,
             bar_corner_radius: 3,
             arrow_curve: 5,
-            padding: 18,
+            padding: 20,
             view_mode: "Day",
             date_format: "YYYY-MM-DD",
+            custom_popup_html: function (milestone) {
+              return `
+                <div class="card" style="width: 10rem;">
+                  <div class="card-body">
+                    <p>Expected to finish by ${milestone.end}</p>
+                    <p>${milestone.progress}% completed!</p>
+                    <a href="/milestones/${milestone.id}">More Details</a>
+                  </div>
+                </div>
+          `;
+            },
           });
           console.log(v);
         },
         false
       );
     </script>
-    <style>
+    <style th:if="${userHash} and ${userHash.isDark}">
+      .gantt .grid-header {
+        fill: #333;
+      }
+      .gantt .lower-text {
+        fill: #fff;
+      }
       .gantt .grid-row:nth-child(even) {
-        fill: lightblue;
+        fill: #222;
       }
       .gantt .grid-row {
-        fill: lightgray;
+        fill: #444;
+      }
+      .gantt .bar-invalid ~ .bar-label {
+        fill: #fff;
       }
     </style>
   </head>

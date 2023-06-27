@@ -21,6 +21,17 @@
       <a th:href="@{/milestones/gantt}" class="btn btn-primary mt-3"
         >ガントチャート</a
       >
+
+      <script type="text/javascript">
+        let toastElemList = [].slice.call(
+          document.querySelector("#toast-container").querySelectorAll(".toast")
+        );
+        let toastList = toastElemList.map(function (toastElem) {
+          let toast = new bootstrap.Toast(toastElem, { autohide: false });
+          toast.show();
+          return toast;
+        });
+      </script>
     </div>
   </body>
 </html>
