@@ -1,5 +1,7 @@
 package com.example.mils.demo.web.user;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.example.mils.demo.domain.user.UserEntity;
@@ -22,5 +24,15 @@ public class UserService {
 
     public void update(String userName, String icon, String displayName) {
         userRepository.update(userName, icon, displayName);
+    }
+
+    public List<String> getGroupListByUserName(String userName) {
+        return userRepository.getGroupListByUserName(userName);
+    }
+
+    public List<String> getUserListByGroup(String group) {
+        List<String> groupList = null;
+        groupList = userRepository.getUserListByGroup(group);
+        return groupList;
     }
 }

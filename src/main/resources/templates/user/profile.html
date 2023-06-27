@@ -12,10 +12,20 @@
   <body>
     <div class="container" layout:fragment="layoutContent">
       <h1 class="text-3xl font-bold underline">User Profile</h1>
-      権限一覧:
-      <ul th:if="${userHash}" th:each="role : ${userHash.roles}">
-        <li th:text="${role}"></li>
-      </ul>
+      <div class="row mt-3">
+        <div class="col">
+          権限一覧:
+          <ul th:if="${userHash}" th:each="role : ${userHash.roles}">
+            <li th:text="${role}"></li>
+          </ul>
+        </div>
+        <div class="col">
+          所属グループ一覧:
+          <ul th:if="${userHash}" th:each="group : ${userHash.groups}">
+            <li th:text="${group}"></li>
+          </ul>
+        </div>
+      </div>
       <form
         method="post"
         th:action="@{/user/upload}"

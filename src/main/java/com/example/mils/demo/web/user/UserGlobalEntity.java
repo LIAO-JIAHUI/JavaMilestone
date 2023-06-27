@@ -12,4 +12,5 @@ public class UserGlobalEntity {
     private List<String> roles;
     private Boolean isDark;
     private String iconString;
+    private List<String> groups;
 }

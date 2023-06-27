@@ -22,8 +22,8 @@ privateStompClient.connect({}, function (frame) {
 });
 
 function sendMessage() {
-  var text = document.getElementById("text").value;
-  var type = document.getElementById("tyoe1").value;
+  var text = document.getElementById("title").value;
+  var type = document.getElementById("type").value;
   stompClient.send(
     "/app/application",
     {},
@@ -32,8 +32,8 @@ function sendMessage() {
 }
 
 function sendPrivateMessage() {
-  var text = document.getElementById("privateText").value;
-  var type = document.getElementById("type2").value;
+  var text = document.getElementById("title").value;
+  var type = document.getElementById("type").value;
   var to = document.getElementById("to").value;
   stompClient.send(
     "/app/private",
@@ -48,6 +48,33 @@ function sendPrivateMessage() {
   );
 }
 
+setInterval(updateElapsedTime, 5000);
+
+function updateElapsedTime() {
+  console.log();
+  const timeStamps = document
+    .getElementById("messages")
+    .getElementsByClassName("elapsed-time");
+  const now = moment();
+  if (timeStamps.length == 0) {
+    return;
+  }
+  for (let i = 0; i < timeStamps.length; i++) {
+    let receivedAt = moment(timeStamps[i].dataset.receivedAt);
+    let deff = now.diff(receivedAt, "minute");
+    console.log("deff", deff);
+    if (deff > 1440) {
+      timeStamps[i].innerHTML = now.diff(receivedAt, "days") + " days ago";
+    } else if (deff > 60) {
+      timeStamps[i].innerHTML = now.diff(receivedAt, "hours") + " hours ago";
+    } else if (deff < 1) {
+      timeStamps[i].innerHTML = now.diff(receivedAt, "seconds") + " second ago";
+    } else {
+      timeStamps[i].innerHTML = deff + " minutes ago";
+    }
+  }
+}
+
 function show(notification) {
   var response = document.getElementById("messages");
   var template = document.getElementById("toast-template");
@@ -58,9 +85,10 @@ function show(notification) {
   fromUser.textContent = notification.from;
 
   let timeStamp = notificationArea.querySelector(".elapsed-time");
-  var now = new Date();
+  var today = moment();
   timeStamp.textContent = "just now";
-  timeStamp.dataset.receptionAt = now;
+
+  timeStamp.dataset.receivedAt = today.format("YYYY-MM-DDTHH:mm:ss");
 
   let bodyMessage = notificationArea.querySelector(".toast-body");
 

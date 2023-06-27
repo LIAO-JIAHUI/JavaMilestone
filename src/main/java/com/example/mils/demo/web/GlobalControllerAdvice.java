@@ -36,7 +36,10 @@ public class GlobalControllerAdvice {
                 }
                 UserEntity user = userService.find(username);
 
-                userGlobalEntity = new UserGlobalEntity(username, roleStrings, user.getIsDark(), user.getIcon());
+                List<String> groupList = null;
+                groupList = userService.getGroupListByUserName(username);
+                userGlobalEntity = new UserGlobalEntity(username, roleStrings, user.getIsDark(), user.getIcon(),
+                        groupList);
             }
         }
         return userGlobalEntity;

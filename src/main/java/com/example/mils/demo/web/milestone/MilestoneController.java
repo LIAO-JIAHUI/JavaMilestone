@@ -2,8 +2,10 @@ package com.example.mils.demo.web.milestone;
 
 import com.example.mils.demo.domain.milestone.MilestoneEntity;
 import com.example.mils.demo.domain.milestone.MilestoneService;
+import com.example.mils.demo.web.pushMessage.MessageController;
 import com.example.mils.demo.web.pushMessage.Notification;
 import com.example.mils.demo.web.user.UserGlobalEntity;
+import com.example.mils.demo.web.user.UserService;
 
 import lombok.AllArgsConstructor;
 
@@ -20,7 +22,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 @RequestMapping("/milestones")
 public class MilestoneController {
     private final MilestoneService milestoneService; // MilestoneServiceインスタンスの生成
-    private final SimpMessagingTemplate messagingTemplate;
+    private final UserService userService;
+    private final MessageController MessageController;
 
     /**
      * showList
@@ -108,8 +111,9 @@ public class MilestoneController {
                     milestoneForm.getStatus(),
                     milestoneForm.getScheduleAt(),
                     milestoneForm.getDeadlineAt());
-            messagingTemplate.convertAndSend("/all/messages",
-                    new Notification(null, milestoneForm.getTitle(), "create", null, getUser(model)));
+            MessageController.sendToSpecificUser(new Notification(null, milestoneForm.getTitle(), "create",
+                    userService.getUserListByGroup("CCレモン"), getUser(model)));
+
             return "redirect:/milestones";
         }
     }
@@ -203,8 +207,8 @@ public class MilestoneController {
                 milestoneForm.getStatus(), milestoneForm.getScheduleAt(),
                 milestoneForm.getDeadlineAt());
 
-        messagingTemplate.convertAndSend("/all/messages",
-                new Notification(id, milestoneForm.getTitle(), "edit", null, getUser(model)));
+        MessageController.sendToSpecificUser(new Notification(null, milestoneForm.getTitle(), "edit",
+                userService.getUserListByGroup("CCレモン"), getUser(model)));
         return "redirect:/milestones/{id}";
     }
 
@@ -231,8 +235,8 @@ public class MilestoneController {
             return "redirect:/milestones";
         }
 
-        messagingTemplate.convertAndSend("/all/messages",
-                new Notification(id, milestoneService.getTitleById(longId), "delete", null, getUser(model)));
+        MessageController.sendToSpecificUser(new Notification(null, milestoneService.getTitleById(longId), "delete",
+                userService.getUserListByGroup("CCレモン"), getUser(model)));
         milestoneService.deleteById(longId);
         return "redirect:/milestones";
     }

@@ -59,4 +59,8 @@ public class MilestoneService {
     private String getLikeStatement(String value) {
         return value == null ? "%%" : "%" + value + "%";
     }
+
+    private String getGroupNameByGroupId(long id) {
+        return milestoneRepository.getGroupNameByGroupId(id);
+    }
 }

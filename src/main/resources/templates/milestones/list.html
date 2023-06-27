@@ -76,6 +76,7 @@
                 th:replace="components/sort-head :: sort-button(deadline_at,deadline,${orderBy},${order},${title})"
               ></div>
             </th>
+            <th>group</th>
           </tr>
         </thead>
         <tbody>
@@ -102,6 +103,7 @@
             </td>
             <td th:text="${milestone.scheduleAt}"></td>
             <td th:text="${milestone.deadlineAt}"></td>
+            <td></td>
           </tr>
         </tbody>
       </table>

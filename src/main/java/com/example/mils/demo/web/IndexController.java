@@ -20,4 +20,9 @@ public class IndexController {
     public String showLogoutForm() {
         return "logout";
     }
+
+    @GetMapping("/debug")
+    public String showDebug() {
+        return "debug";
+    }
 }

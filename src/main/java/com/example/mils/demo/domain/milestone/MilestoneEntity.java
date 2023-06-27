@@ -12,6 +12,7 @@ public class MilestoneEntity {
     // フィールドの定義
     private long id;
     private String author;
+    private long group_id;
     private String title;
     private String description;
     private String status;

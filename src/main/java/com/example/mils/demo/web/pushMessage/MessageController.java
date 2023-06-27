@@ -6,6 +6,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 @Controller
 // @RestController
@@ -15,14 +16,18 @@ public class MessageController {
 
     // Mapped as /app/application
     @MessageMapping("/application")
-    @SendTo("/all/messages")
-    public Notification send(final Notification message) throws Exception {
-        return message;
+    // @SendTo("/all/messages")
+    public void send(final Notification message) throws Exception {
+        simpMessagingTemplate.convertAndSend("/all/messages", message);
+        // return message;
     }
 
     // Mapped as /app/private
     @MessageMapping("/private")
     public void sendToSpecificUser(@Payload Notification message) {
-        simpMessagingTemplate.convertAndSendToUser(message.getTo(), "/specific", message);
+        for (String to : message.getTo()) {
+            simpMessagingTemplate.convertAndSendToUser(to, "/specific", message);
+        }
+
     }
 }

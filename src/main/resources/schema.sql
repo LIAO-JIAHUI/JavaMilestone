@@ -15,9 +15,15 @@ create table authorities (
 
 create unique index ix_auth_username on authorities (username,authority);
 
+create table groups(
+	id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	name VARCHAR(256) NOT NULL
+);
+
 create table milestones (
     id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	author varchar_ignorecase(50) not null,
+	group_id BIGINT,
     title VARCHAR(256) NOT NULL,
     description TEXT NOT NULL,
 	status VARCHAR(256) NOT NULL DEFAULT 'todo',
@@ -25,19 +31,15 @@ create table milestones (
 	deadline_at	DATE,
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	constraint fk_milestones_users foreign key(author) references users(username)
-);
-
-create table groups(
-	id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	name VARCHAR(256) NOT NULL
+	constraint fk_milestones_users foreign key(author) references users(username),
+	FOREIGN KEY (group_id) REFERENCES groups(id)
 );
 
 create table group_user(
 	id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	group_id BIGINT NOT NULL,
-	user_id varchar_ignorecase(50) NOT NULL,
+	username varchar_ignorecase(50) NOT NULL,
 	role VARCHAR(256) NOT NULL DEFAULT 'viewer', -- owner editor viewer
 	FOREIGN KEY (group_id) REFERENCES groups(id),
-	FOREIGN KEY (user_id) REFERENCES users(username)
+	FOREIGN KEY (username) REFERENCES users(username)
 );
