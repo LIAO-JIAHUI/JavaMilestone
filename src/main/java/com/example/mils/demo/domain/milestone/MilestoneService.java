@@ -35,9 +35,11 @@ public class MilestoneService {
     }
 
     @Transactional
-    public void create(String author, String title, String description, String status, Date scheduleAt,
+    public int create(String author, String title, String description, String status, Date scheduleAt,
             Date deadlineAt) {
-        milestoneRepository.insert(author, title, description, status, scheduleAt, deadlineAt);
+        int num = milestoneRepository.insert(author, title, description, status, scheduleAt, deadlineAt);
+
+        return num;
     }
 
     public void update(long id, String title, String description, String status, Date scheduleAt, Date deadlineAt) {

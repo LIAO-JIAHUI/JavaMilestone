@@ -1,8 +1,9 @@
 package com.example.mils.demo.domain.milestone;
 
 import java.sql.*;
-import java.sql.Date;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -10,6 +11,7 @@ import lombok.Data;
 @Data
 public class MilestoneEntity {
     // フィールドの定義
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String author;
     private long group_id;

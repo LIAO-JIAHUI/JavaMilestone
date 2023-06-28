@@ -92,6 +92,12 @@
                   >Milestone List<i class="fas fa-sun"></i
                 ></a>
               </li>
+              <li>
+                <a class="dropdown-item" th:href="@{/milestones/gantt}"
+                  >gantt</a
+                >
+              </li>
+
               <th:block
                 th:if="${userHash} and ${#lists.contains(userHash.roles,'ROLE_ADMIN')}"
               >

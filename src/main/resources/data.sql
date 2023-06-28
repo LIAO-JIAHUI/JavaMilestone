@@ -27,8 +27,11 @@ INSERT INTO groups (name) values('CCレモン'),('BB団'),('ロケット団');
 
 INSERT INTO group_user(group_id,username,role) values(1,'arakawa','owner'),(1,'sugimori','owner'),(1,'liao','owner'),(2,'arakawa','editor');
 
-
-
+INSERT INTO user_tokens(username,token)
+values
+('liao','ePAtt9cNogFim1hQlfgPVk:APA91bFSjBkZg0W8-jCYIGpWHZBHdBVhGQGnKMCuVsTUkbdzz-Vl4_D1dd4LRbU4-eQ0eN_jvHraN_seP6qp2Lv5ruDhM-lgQtzDe8KP_JouV_0s1ZrcKBasxlJNdPufPg2FevUzCGou'),
+('arakawa','cIeRy7_-_MN2N8eorISpDP:APA91bGEolbz2zplPT2JB_Wk_XgsH6sdmYIxUCLmBXiSCs5gyd8NqoD7Ov2wo4PVP9l2XWYzMXfO-rJEwZWk9PvPPzqq3O7BsXGONgQ8-sjFeWVm6YzM98ThKw5IXI4Q3bQLLcvGJR2X'),
+('sugimori','dnk90eXlb_1MuYUqy2s60i:APA91bGFHlM8lbhqu6DimewTOgoS9Vu2UtiyvanlD9Y_ukhgkqVtfRWS8i6vMd_ufbbsNstN8WKV4LEQA879M4SNkIEWEk8QHeg-kc2rZBn7pDj-3Sr0tjWFF3Xd0VEyoMEXl4WHhaR2');
 
 INSERT INTO milestones (author, title, description, status, group_id, schedule_at, deadline_at) 
 VALUES ('admin','リストページへ遷移', 'トップページから「マイルストーン一覧」ボタンリストページへ遷移できる', 'done', 1,'2023-6-22', '2023-6-25');

@@ -30,6 +30,8 @@ public interface MilestoneRepository {
     // @Insert("insert into milestones (title,description) values
     // (#{title},#{description})")
     // void insert(String title, String description);
-    @Insert("insert into milestones (author, title, description, status, schedule_at, deadline_at) values (#{author},#{title},#{description},#{status},#{scheduleAt},#{deadlineAt})")
-    void insert(String author, String title, String description, String status, Date scheduleAt, Date deadlineAt);
+    // FIXME : group_idが固定値
+    @Insert("insert into milestones (author, title, description, status, schedule_at, deadline_at,group_id) values (#{author},#{title},#{description},#{status},#{scheduleAt},#{deadlineAt},1)")
+    // @Options(useGeneratedKeys = true, keyProperty = "id")
+    int insert(String author, String title, String description, String status, Date scheduleAt, Date deadlineAt);
 }
