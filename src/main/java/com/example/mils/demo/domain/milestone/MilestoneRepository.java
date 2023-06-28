@@ -8,18 +8,16 @@ import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface MilestoneRepository {
-    @Select("select * from milestones where title like #{title} and author like #{author} and status like #{status} order by ${orderBy} ${order}")
+    @Select("select m.ID,m.AUTHOR,m.group_id,g.name,m.TITLE,m.DESCRIPTION,m.STATUS,m.SCHEDULE_AT,m.DEADLINE_AT,m.CREATED_AT,m.UPDATED_AT from milestones as m join groups as g where m.group_id=g.id and m.title like #{title} and m.author like #{author} and m.status like #{status} order by m.${orderBy} ${order}")
     List<MilestoneEntity> search(String title, String author, String status, @Param("orderBy") String orderBy,
             @Param("order") String order);
 
-    @Select("select * from milestones where id=#{id}")
+    // TODO: 一個しか取らないからjoinじゃなくてsub queryのほうがいいかも
+    @Select("select m.ID,m.AUTHOR,m.group_id,g.name,m.TITLE,m.DESCRIPTION,m.STATUS,m.SCHEDULE_AT,m.DEADLINE_AT,m.CREATED_AT,m.UPDATED_AT from milestones as m join groups as g where m.group_id=g.id and m.id=#{id}")
     MilestoneEntity getById(long id);
 
     @Select("select title from milestones where id=#{id}")
     String getTitleById(long id);
-
-    @Select("select name from groups where id=#{id}")
-    String getGroupNameByGroupId(long id);
 
     @Update("update milestones set title=#{title}, description=#{description}, status=#{status}, schedule_at=#{scheduleAt}, deadline_at=#{deadlineAt} where id=#{id}")
     void update(long id, String title, String description, String status, Date scheduleAt, Date deadlineAt);
@@ -33,5 +31,9 @@ public interface MilestoneRepository {
     // FIXME : group_idが固定値
     @Insert("insert into milestones (author, title, description, status, schedule_at, deadline_at,group_id) values (#{author},#{title},#{description},#{status},#{scheduleAt},#{deadlineAt},1)")
     // @Options(useGeneratedKeys = true, keyProperty = "id")
-    int insert(String author, String title, String description, String status, Date scheduleAt, Date deadlineAt);
+    void insert(String author, String title, String description, String status, Date scheduleAt, Date deadlineAt);
+
+    @Insert("insert into milestones (author, title, description, status, schedule_at, deadline_at,group_id) values (#{author},#{title},#{description},#{status},#{scheduleAt},#{deadlineAt},1)")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    void insertByEntity(MilestoneEntity milestoneEntity);
 }

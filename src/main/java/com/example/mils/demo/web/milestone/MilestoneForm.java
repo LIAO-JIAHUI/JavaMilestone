@@ -13,6 +13,9 @@ public class MilestoneForm {
     @Size(max = 256)
     private String title;
 
+    @Size(max = 256)
+    private String group;
+
     @NotBlank
     private String description;
 

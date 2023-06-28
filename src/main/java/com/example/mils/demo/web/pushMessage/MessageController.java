@@ -26,8 +26,8 @@ public class MessageController {
     @MessageMapping("/private")
     public void sendToSpecificUser(@Payload Notification message) {
         for (String to : message.getTo()) {
-            simpMessagingTemplate.convertAndSendToUser(to, "/specific", message);
+            if (!to.equals(message.getFrom()))
+                simpMessagingTemplate.convertAndSendToUser(to, "/specific", message);
         }
-
     }
 }

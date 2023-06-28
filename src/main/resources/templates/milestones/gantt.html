@@ -22,8 +22,7 @@
           description: m.description,
           start: m.scheduleAt,
           end: m.deadlineAt,
-          progress:
-            m.status == "done" ? 100 : m.status == "in-progress" ? 50 : 0,
+          progress: m.status == "done" ? 100 : 0,
         };
       });
       document.addEventListener(
@@ -45,7 +44,6 @@
                 <div class="card" style="width: 10rem;">
                   <div class="card-body">
                     <p>Expected to finish by ${milestone.end}</p>
-                    <p>${milestone.progress}% completed!</p>
                     <a href="/milestones/${milestone.id}">More Details</a>
                   </div>
                 </div>
@@ -77,6 +75,7 @@
   </head>
   <body>
     <div layout:fragment="layoutContent" class="container">
+      <h1>Milestone GanttChart</h1>
       <div class="container-fluid mt-3">
         <svg id="gantt"></svg>
       </div>

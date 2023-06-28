@@ -9,6 +9,7 @@ import java.util.*;
 public class UserGlobalEntity {
     // フィールドの定義
     private String username;
+    private String displayName;
     private List<String> roles;
     private Boolean isDark;
     private String iconString;

@@ -27,7 +27,7 @@ public class SecurityConfig {
                                 .loginProcessingUrl("/login")
                                 .loginPage("/login")
                                 // .successForwardUrl("/milestones")
-                                .defaultSuccessUrl("/milestones")// , true
+                                .defaultSuccessUrl("/dashboard")// , true
                                 .failureUrl("/login?error")
                                 .permitAll()).logout(logout -> logout
                                                 .logoutUrl("/logout")

@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 @Controller
 @AllArgsConstructor
@@ -33,7 +32,6 @@ public class MilestoneController {
     private final MessageController MessageController;
     private final FirebaseMessagingService firebaseMessagingService;
     private final UserTokenService userTokenService;
-    private final SimpMessagingTemplate messagingTemplate;
 
     /**
      * showList
@@ -57,7 +55,8 @@ public class MilestoneController {
         model.addAttribute("status", status);
         model.addAttribute("orderBy", orderBy);
         model.addAttribute("order", order);
-        model.addAttribute("milestoneList", milestoneService.search(title, author, status, orderBy, order));
+        List<MilestoneEntity> milestoneList = milestoneService.search(title, author, status, orderBy, order);
+        model.addAttribute("milestoneList", milestoneList);
         model.addAttribute("completionRate", milestoneService.getCompletionRate("done") * 100 + " %");
 
         return "milestones/list";
@@ -114,23 +113,27 @@ public class MilestoneController {
             return "milestones/form";
         } else {
             UserGlobalEntity user = (UserGlobalEntity) model.getAttribute("userHash");
-            milestoneService.create(
-                    user.getUsername(),
-                    milestoneForm.getTitle(),
-                    milestoneForm.getDescription(),
-                    milestoneForm.getStatus(),
-                    milestoneForm.getScheduleAt(),
-                    milestoneForm.getDeadlineAt());
+            MilestoneEntity milestoneEntity = milestoneService
+                    .createByEntity(new MilestoneEntity(0, user.getUsername(), 1, milestoneForm.getGroup(),
+                            milestoneForm.getTitle(),
+                            milestoneForm.getDescription(), milestoneForm.getStatus(), milestoneForm.getScheduleAt(),
+                            milestoneForm.getDeadlineAt(),
+                            null, null));
+            long insertId = milestoneEntity.getId();
+            model.addAttribute("insertId", insertId);
             // ブラウザ通知
-            MessageController.sendToSpecificUser(new Notification(null, milestoneForm.getTitle(), "create",
-                    userService.getUserListByGroup("CCレモン"), getUser(model)));
+            MessageController
+                    .sendToSpecificUser(new Notification(String.valueOf(insertId), milestoneForm.getTitle(), "create",
+                            userService.getUserListByGroup(milestoneForm.getGroup()),
+                            getUser(model)));
             // firebase通知
             List<UserTokenEntity> userTokens = userTokenService.findAll();
-            Note note = new Note("お知らせ", "マイルストーンが新しく作成されました", "/milestones");
+            Note note = new Note("お知らせ", user.getUsername() + "が「" + milestoneEntity.getTitle() + "」を作成しました",
+                    "/milestones/" + insertId);
             for (int i = 0; i < userTokens.size(); i++) {
                 firebaseMessagingService.send(note, userTokens.get(i).getToken());
             }
-            return "redirect:/milestones";
+            return "redirect:/milestones/" + String.valueOf(insertId);
         }
     }
 
@@ -224,11 +227,12 @@ public class MilestoneController {
                 milestoneForm.getStatus(), milestoneForm.getScheduleAt(),
                 milestoneForm.getDeadlineAt());
         // ブラウザ通知
-        MessageController.sendToSpecificUser(new Notification(null, milestoneForm.getTitle(), "edit",
+        MessageController.sendToSpecificUser(new Notification(id, milestoneForm.getTitle(), "edit",
                 userService.getUserListByGroup("CCレモン"), getUser(model)));
         // firebase通知
         List<UserTokenEntity> userTokens = userTokenService.findAll();
-        Note note = new Note("お知らせ", "マイルストーンが編集されました", "/milestones/" + milestone.getId());
+        Note note = new Note("お知らせ", getUser(model) + "が「" + milestone.getTitle() + "」を編集しました",
+                "/milestones/" + milestone.getId());
         for (int i = 0; i < userTokens.size(); i++) {
             firebaseMessagingService.send(note, userTokens.get(i).getToken());
         }
@@ -265,7 +269,7 @@ public class MilestoneController {
         milestoneService.deleteById(longId);
 
         List<UserTokenEntity> userTokens = userTokenService.findAll();
-        Note note = new Note("お知らせ", "マイルストーンが削除されました", "/milestones");
+        Note note = new Note("お知らせ", getUser(model) + "が「" + milestone.getTitle() + "」を削除しました", "/milestones");
         for (int i = 0; i < userTokens.size(); i++) {
             firebaseMessagingService.send(note, userTokens.get(i).getToken());
         }

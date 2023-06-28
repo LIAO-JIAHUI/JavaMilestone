@@ -34,11 +34,11 @@ values
 ('sugimori','dnk90eXlb_1MuYUqy2s60i:APA91bGFHlM8lbhqu6DimewTOgoS9Vu2UtiyvanlD9Y_ukhgkqVtfRWS8i6vMd_ufbbsNstN8WKV4LEQA879M4SNkIEWEk8QHeg-kc2rZBn7pDj-3Sr0tjWFF3Xd0VEyoMEXl4WHhaR2');
 
 INSERT INTO milestones (author, title, description, status, group_id, schedule_at, deadline_at) 
-VALUES ('admin','リストページへ遷移', 'トップページから「マイルストーン一覧」ボタンリストページへ遷移できる', 'done', 1,'2023-6-22', '2023-6-25');
+VALUES ('admin','リストページへ遷移', 'トップページから「マイルストーン一覧」ボタンリストページへ遷移できる', 'done', 1,'2023-5-22', '2023-6-25');
 INSERT INTO milestones (author, title, description, status, group_id, schedule_at, deadline_at) 
-VALUES ('user','DBログインできる', 'DBに登録されたアカウントでログインできる', 'done', 1,'2023-6-22', '2023-6-25');
+VALUES ('user','DBログインできる', 'DBに登録されたアカウントでログインできる', 'done', 1,'2023-6-1', '2023-6-25');
 INSERT INTO milestones (author, title, description, status, group_id, schedule_at, deadline_at) 
-VALUES ('user','マイルストーンの削除', 'マイルストーンを削除できる', 'todo', 1,'2023-6-22', '2023-6-25');
+VALUES ('user','マイルストーンの削除', 'マイルストーンを削除できる', 'todo', 1,'2023-6-2', '2023-6-2');
 INSERT INTO milestones (author, title, description, status, group_id) 
 VALUES ('user','作成日の追加', 'マイルストーンの作成日がわかる', 'in-progress', 1);
 
@@ -53,13 +53,20 @@ VALUES ('arakawa','長文サンプル',
 <p>よそはもっとも批評ののがお話はあてるからいるですたますうが、二一の自分でどう投げたという奔走ないて、しかしその主義の上面がさられて、私かで彼らの個人が活動に通り越していうものですだろと濫用思うて妨害描いいないなけれ。</p>
 <p>家をたとえば三宅さんにただそう吹き込んたものまいたた。大森さんはそう画があるがありで事ますたなかっ。</p>
 <p>（それで壇に思っ上ないたないからんはありますございて、）どうすれです在来で、三井の尻馬のみして作っとして、個人の想像は次第のうちまで間違っ生きものを見ませて意味院足りでならたというご兄れ方で。私は何しろ権力に思うでしょようにいうが切らでしのんてただずいぶん目黒道具すれならます。だからそう二個は秋刀魚に向いて、当時にいくらでも圧しないなと困るて、ないですなてしかもご教育で死んたん。</p>
-<p>弟の場合を、ある国家がほかにいまで、事実いっぱいにまた当時一四四円が並べかものお笑いを、私か描いで落第をすれた場合は何しろするれるのたから、ぼんやりこう考がないから、そのものを受けのを簡潔た悪い云いんない。</p>', 'in-progress', 1, '2023-6-22', '2023-6-25');
+<p>弟の場合を、ある国家がほかにいまで、事実いっぱいにまた当時一四四円が並べかものお笑いを、私か描いで落第をすれた場合は何しろするれるのたから、ぼんやりこう考がないから、そのものを受けのを簡潔た悪い云いんない。</p>', 'in-progress', 1, '2023-7-22', '2023-7-25');
 
 
 INSERT INTO milestones (author, title, description, status, group_id, schedule_at, deadline_at) 
-VALUES ('arakawa','arakawaのタスク', 'DBに登録されたアカウントでログインできる', 'done', 1,'2023-6-22', '2023-6-25');
+VALUES ('arakawa','arakawaのタスク', 'DBに登録されたアカウントでログインできる', 'done', 1,'2023-6-22', '2023-6-23');
 INSERT INTO milestones (author, title, description, status, group_id, schedule_at, deadline_at) 
-VALUES ('sugimori','sugimoriのタスク', 'マイルストーンを削除できる', 'todo', 1, '2023-6-22', '2023-6-25');
+VALUES ('sugimori','sugimoriのタスク', 'マイルストーンを削除できる', 'todo', 1, '2023-6-23', '2023-6-25');
 INSERT INTO milestones (author, title, description, status, group_id) 
 VALUES ('liao','liaoのタスク', 'マイルストーンの作成日がわかる', 'in-progress', 1);
+
+INSERT INTO milestones (author, title, description, status, group_id, schedule_at, deadline_at) 
+VALUES ('arakawa','arakawaのタスク', 'DBに登録されたアカウントでログインできる', 'done', 2,'2023-6-22', '2023-6-25');
+INSERT INTO milestones (author, title, description, status, group_id, schedule_at, deadline_at) 
+VALUES ('sugimori','sugimoriのタスク', 'マイルストーンを削除できる', 'todo', 2, '2023-6-22', '2023-6-25');
+INSERT INTO milestones (author, title, description, status, group_id) 
+VALUES ('liao','liaoのタスク', 'マイルストーンの作成日がわかる', 'in-progress', 2);
 

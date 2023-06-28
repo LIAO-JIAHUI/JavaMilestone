@@ -33,10 +33,12 @@ public class UserController {
      * @return
      */
     @GetMapping("/signup")
-    public ModelAndView signup(ModelAndView modelAndView) {
+    public ModelAndView signup(ModelAndView modelAndView, Model model) {
+        if (model.getAttribute("userHash") != null) {
+            return new ModelAndView("redirect:/dashboard");
+        }
         modelAndView.setViewName("signup");
         modelAndView.addObject("SignupForm", new SignupForm());
-
         return modelAndView;
     }
 
@@ -64,7 +66,7 @@ public class UserController {
             return new ModelAndView("redirect:/user");
         }
 
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/dashboard");
     }
 
     @GetMapping("/profile")
@@ -85,7 +87,7 @@ public class UserController {
         userService.update(
                 profileForm.getUsername(),
                 imageAsString,
-                "displayname");
+                profileForm.getDisplayName());
         return "redirect:/user/profile";
     }
 

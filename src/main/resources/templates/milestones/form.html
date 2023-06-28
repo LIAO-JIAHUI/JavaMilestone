@@ -49,6 +49,23 @@
             (error)
           </p>
         </div>
+        <div th:unless="${id}">
+          <label for="groupInput" class="form-label">Group: </label>
+          <select
+            id="groupInput"
+            type="text"
+            th:field="*{group}"
+            class="form-select"
+          >
+            <th:block th:each="uHashgroups : ${userHash.groups}">
+              <option
+                th:text="${uHashgroups}"
+                th:value="${uHashgroups}"
+                th:selected="${group} ? ${group == Hashgroups}"
+              ></option
+            ></th:block>
+          </select>
+        </div>
         <div class="mt-3">
           <label for="descriptionInput" class="form-label">Description: </label>
           <input

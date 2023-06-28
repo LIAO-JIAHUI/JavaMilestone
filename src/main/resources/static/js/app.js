@@ -91,7 +91,13 @@ function show(notification) {
 
   switch (notification.type) {
     case "create":
-      bodyMessage.textContent = notification.title + "を作成しました";
+      bodyMessage.innerHTML =
+        "「<a href='/milestones/" +
+        notification.milestoneId +
+        "'>" +
+        notification.title +
+        "</a>」を作成しました";
+      break;
       break;
     case "edit":
       bodyMessage.innerHTML =

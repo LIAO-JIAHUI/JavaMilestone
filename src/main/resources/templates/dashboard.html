@@ -11,7 +11,6 @@
   </head>
   <body>
     <div class="container" layout:fragment="layoutContent">
-      <!-- <h1 class="text-3xl font-bold underline">Milestone APP</h1> -->
       <a
         href="./milestones/list.html"
         th:href="@{/milestones}"
@@ -22,6 +21,82 @@
         >ガントチャート</a
       >
       <a th:href="@{/user/profile}" class="btn btn-primary mt-3">Profile</a>
+
+      <div class="card my-3 border-0">
+        <div class="card-body text-center">
+          <h1 class="card-title m-b-0">My Milestones</h1>
+        </div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>
+                  <div
+                    th:replace="components/sort-head :: sort-button('title','title',${orderBy},${order},${title})"
+                  ></div>
+                  <a
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="click title to see detail"
+                  >
+                    <i class="bi bi-question-circle"></i>
+                  </a>
+                </th>
+                <th>
+                  <div
+                    th:replace="components/sort-head :: sort-button(status,status,${orderBy},${order},${title})"
+                  ></div>
+                </th>
+                <th>
+                  <div
+                    th:replace="components/sort-head :: sort-button(author,author,${orderBy},${order},${title})"
+                  ></div>
+                </th>
+                <th>
+                  <div
+                    th:replace="components/sort-head :: sort-button(schedule_at,schedule,${orderBy},${order},${title})"
+                  ></div>
+                </th>
+                <th>
+                  <div
+                    th:replace="components/sort-head :: sort-button(deadline_at,deadline,${orderBy},${order},${title})"
+                  ></div>
+                </th>
+                <th>group</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="milestone : ${milestoneList}">
+                <td th:text="${milestone.id}"></td>
+                <td>
+                  <a
+                    th:text="${milestone.title}"
+                    th:href="@{/milestones/{id}(id=${milestone.id})}"
+                  ></a>
+                </td>
+                <td>
+                  <th:block
+                    class="insert"
+                    th:insert="components/status-tag :: status-tag(${milestone.status})"
+                  ></th:block>
+                </td>
+                <td>
+                  <a
+                    class="text-decoration-none text-reset"
+                    th:text="${milestone.author}"
+                    th:href="@{/milestones?author={author}(author=${milestone.author})}"
+                  ></a>
+                </td>
+                <td th:text="${milestone.scheduleAt}"></td>
+                <td th:text="${milestone.deadlineAt}"></td>
+                <td th:text="${milestone.group}"></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </body>
 </html>

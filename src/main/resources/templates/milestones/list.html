@@ -11,8 +11,16 @@
   </head>
   <body>
     <div layout:fragment="layoutContent" class="container">
-      <!-- <h1>Milestone List</h1> -->
-      <p th:text="${completionRate}">(completionRate)</p>
+      <span class="fs-1"> Milestone List </span>
+      <a
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        title="click table column name to sort"
+      >
+        <i class="bi bi-question-circle"></i>
+      </a>
+
+      <!-- <p th:text="${completionRate}">(completionRate)</p> -->
       <div class="container my-3">
         <div class="row">
           <div class="col">
@@ -30,7 +38,7 @@
                   name="title"
                   class="form-control"
                   th:value="${title}"
-                  placeholder="Search by keyword"
+                  placeholder="Search by title"
                 />
                 <button class="btn btn-outline-secondary" type="submit">
                   <i class="bi bi-search"></i> Search
@@ -65,6 +73,13 @@
               <div
                 th:replace="components/sort-head :: sort-button(author,author,${orderBy},${order},${title})"
               ></div>
+              <a
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                title="click author to see own milestone"
+              >
+                <i class="bi bi-question-circle"></i>
+              </a>
             </th>
             <th>
               <div
@@ -76,7 +91,16 @@
                 th:replace="components/sort-head :: sort-button(deadline_at,deadline,${orderBy},${order},${title})"
               ></div>
             </th>
-            <th>group</th>
+            <th class="text-secondary">
+              group
+              <a
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                title="sort comming soon"
+              >
+                <i class="bi bi-question-circle"></i>
+              </a>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -103,6 +127,7 @@
             </td>
             <td th:text="${milestone.scheduleAt}"></td>
             <td th:text="${milestone.deadlineAt}"></td>
+            <td th:text="${milestone.group}"></td>
             <td></td>
           </tr>
         </tbody>

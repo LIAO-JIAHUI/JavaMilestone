@@ -38,23 +38,11 @@ public class GlobalControllerAdvice {
 
                 List<String> groupList = null;
                 groupList = userService.getGroupListByUserName(username);
-                userGlobalEntity = new UserGlobalEntity(username, roleStrings, user.getIsDark(), user.getIcon(),
+                userGlobalEntity = new UserGlobalEntity(username, user.getDisplayName(), roleStrings, user.getIsDark(),
+                        user.getIcon(),
                         groupList);
             }
         }
         return userGlobalEntity;
     }
-
-    // @ModelAttribute("roles")
-    // public Collection<? extends GrantedAuthority> getCurrentUserRole() {
-    // Authentication authentication =
-    // SecurityContextHolder.getContext().getAuthentication();
-    // if (authentication != null && authentication.isAuthenticated()) {
-    // Collection<? extends GrantedAuthority> roles =
-    // authentication.getAuthorities();
-    // return roles;
-    // }
-    // return null;
-    // }
-
 }

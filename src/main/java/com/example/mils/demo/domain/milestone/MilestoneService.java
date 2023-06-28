@@ -34,12 +34,18 @@ public class MilestoneService {
         return completionRate;
     }
 
-    @Transactional
-    public int create(String author, String title, String description, String status, Date scheduleAt,
-            Date deadlineAt) {
-        int num = milestoneRepository.insert(author, title, description, status, scheduleAt, deadlineAt);
+    // @Transactional
+    // public void create(String author, String title, String description, String
+    // status, Date scheduleAt,
+    // Date deadlineAt) {
+    // milestoneRepository.insert(author, title, description, status, scheduleAt,
+    // deadlineAt);
+    // }
 
-        return num;
+    @Transactional
+    public MilestoneEntity createByEntity(MilestoneEntity milestoneEntity) {
+        milestoneRepository.insertByEntity(milestoneEntity);
+        return milestoneEntity;
     }
 
     public void update(long id, String title, String description, String status, Date scheduleAt, Date deadlineAt) {
@@ -62,7 +68,4 @@ public class MilestoneService {
         return value == null ? "%%" : "%" + value + "%";
     }
 
-    private String getGroupNameByGroupId(long id) {
-        return milestoneRepository.getGroupNameByGroupId(id);
-    }
 }

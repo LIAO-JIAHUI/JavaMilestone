@@ -52,6 +52,7 @@
         <div class="row mt-3">
           <div class="col">
             <label for="usernameInput" class="form-label">username: </label>
+
             <input
               th:field="*{username}"
               id="usernameInput"
@@ -66,7 +67,7 @@
             </label>
             <input
               type="text"
-              name="displayName"
+              th:field="*{displayName}"
               id="displayNameInput"
               th:value="${displayName}"
               class="form-control"
