@@ -35,12 +35,7 @@ public class SecurityConfig {
                                 .authorizeHttpRequests(authz -> authz
                                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
                                                 .permitAll()
-                                                .requestMatchers("/ws/**").permitAll()
-                                                .requestMatchers("/js/**").permitAll()// jsに直接アクセスできないようにする
-                                                // .requestMatchers("/api/**").permitAll() // api アクセス
-                                                .requestMatchers("/index").permitAll()
-                                                .requestMatchers("/login").permitAll()
-                                                .requestMatchers("/user/**").permitAll()
+                                                .requestMatchers("/ws/**", "/", "/login", "/user/**").permitAll()
                                                 .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**"))
                                                 .hasRole("ADMIN")
                                                 .anyRequest().authenticated())
