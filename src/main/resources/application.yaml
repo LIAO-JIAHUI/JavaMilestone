@@ -18,10 +18,6 @@ spring:
       filter:
         enabled: true
 
-server:
-  session:
-    timeout: 3600
-
 logging:
   level:
     org:
