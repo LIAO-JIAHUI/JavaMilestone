@@ -21,17 +21,66 @@
       <a th:href="@{/milestones/gantt}" class="btn btn-primary mt-3"
         >ガントチャート</a
       >
+      <!-- 概要セクション -->
+      <section class="py-5">
+        <div class="container">
+          <h2 class="text-center">アプリの概要</h2>
+          <p>アプリの説明や利点をここに記載</p>
+        </div>
+      </section>
 
-      <script type="text/javascript">
-        let toastElemList = [].slice.call(
-          document.querySelector("#toast-container").querySelectorAll(".toast")
-        );
-        let toastList = toastElemList.map(function (toastElem) {
-          let toast = new bootstrap.Toast(toastElem, { autohide: false });
-          toast.show();
-          return toast;
-        });
-      </script>
+      <!-- スクリーンショット/デモセクション -->
+      <section class="py-5 bg-light">
+        <div class="container">
+          <h2 class="text-center">スクリーンショット/デモ</h2>
+          <!-- 画像やデモ動画を表示 -->
+        </div>
+      </section>
+
+      <!-- 機能セクション -->
+      <section class="py-5">
+        <div class="container">
+          <h2 class="text-center">主な機能</h2>
+          <div class="row">
+            <div class="col-md-4">
+              <h3>機能1</h3>
+              <p>機能の説明や利点</p>
+            </div>
+            <div class="col-md-4">
+              <h3>機能2</h3>
+              <p>機能の説明や利点</p>
+            </div>
+            <div class="col-md-4">
+              <h3>機能3</h3>
+              <p>機能の説明や利点</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ユーザーレビューセクション -->
+      <section class="py-5 bg-light">
+        <div class="container">
+          <h2 class="text-center">ユーザーレビュー</h2>
+          <!-- レビューや評価を表示 -->
+        </div>
+      </section>
+
+      <!-- 価格プランセクション -->
+      <section class="py-5">
+        <div class="container">
+          <h2 class="text-center">価格プラン</h2>
+          <!-- 価格プランや特典の比較表を表示 -->
+        </div>
+      </section>
+
+      <!-- お問い合わせ/サポートセクション -->
+      <section class="py-5 bg-light">
+        <div class="container">
+          <h2 class="text-center">お問い合わせ/サポート</h2>
+          <!-- お問い合わせフォームやサポート情報を表示 -->
+        </div>
+      </section>
     </div>
   </body>
 </html>

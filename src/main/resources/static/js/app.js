@@ -41,8 +41,8 @@ function sendPrivateMessage() {
     JSON.stringify({
       milestoneId: 1,
       type: type,
-      title: text,
-      to: to,
+      title: "[Private]" + text,
+      to: [to],
       from: "admin",
     })
   );
