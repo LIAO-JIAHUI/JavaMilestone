@@ -1,8 +1,12 @@
 package com.example.mils.demo.web.milestone;
 
+import com.example.mils.demo.FirebaseMessagingService;
+import com.example.mils.demo.Note;
 import com.example.mils.demo.domain.milestone.MilestoneEntity;
 import com.example.mils.demo.domain.milestone.MilestoneService;
 import com.example.mils.demo.web.pushMessage.MessageController;
+import com.example.mils.demo.domain.userToken.UserTokenEntity;
+import com.example.mils.demo.domain.userToken.UserTokenService;
 import com.example.mils.demo.web.pushMessage.Notification;
 import com.example.mils.demo.web.user.UserGlobalEntity;
 import com.example.mils.demo.web.user.UserService;
@@ -14,6 +18,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
@@ -24,6 +31,9 @@ public class MilestoneController {
     private final MilestoneService milestoneService; // MilestoneServiceインスタンスの生成
     private final UserService userService;
     private final MessageController MessageController;
+    private final FirebaseMessagingService firebaseMessagingService;
+    private final UserTokenService userTokenService;
+    private final SimpMessagingTemplate messagingTemplate;
 
     /**
      * showList
@@ -111,9 +121,15 @@ public class MilestoneController {
                     milestoneForm.getStatus(),
                     milestoneForm.getScheduleAt(),
                     milestoneForm.getDeadlineAt());
+            // ブラウザ通知
             MessageController.sendToSpecificUser(new Notification(null, milestoneForm.getTitle(), "create",
                     userService.getUserListByGroup("CCレモン"), getUser(model)));
-
+            // firebase通知
+            List<UserTokenEntity> userTokens = userTokenService.findAll();
+            Note note = new Note("お知らせ", "マイルストーンが新しく作成されました", "/milestones");
+            for (int i = 0; i < userTokens.size(); i++) {
+                firebaseMessagingService.send(note, userTokens.get(i).getToken());
+            }
             return "redirect:/milestones";
         }
     }
@@ -185,10 +201,11 @@ public class MilestoneController {
      * @param bindingResult
      * @param model
      * @return
+     * @throws Exception
      */
     @PutMapping("/{id}")
     public String edit(@PathVariable("id") String id, @Validated MilestoneForm milestoneForm,
-            BindingResult bindingResult, Model model) {
+            BindingResult bindingResult, Model model) throws Exception {
         Long longId = null;
         try {
             longId = Long.valueOf(id);
@@ -206,9 +223,16 @@ public class MilestoneController {
                 milestoneForm.getDescription(),
                 milestoneForm.getStatus(), milestoneForm.getScheduleAt(),
                 milestoneForm.getDeadlineAt());
-
+        // ブラウザ通知
         MessageController.sendToSpecificUser(new Notification(null, milestoneForm.getTitle(), "edit",
                 userService.getUserListByGroup("CCレモン"), getUser(model)));
+        // firebase通知
+        List<UserTokenEntity> userTokens = userTokenService.findAll();
+        Note note = new Note("お知らせ", "マイルストーンが編集されました", "/milestones/" + milestone.getId());
+        for (int i = 0; i < userTokens.size(); i++) {
+            firebaseMessagingService.send(note, userTokens.get(i).getToken());
+        }
+
         return "redirect:/milestones/{id}";
     }
 
@@ -220,9 +244,10 @@ public class MilestoneController {
      * @param id
      * @param model
      * @return
+     * @throws Exception
      */
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") String id, Model model) {
+    public String delete(@PathVariable("id") String id, Model model) throws Exception {
         Long longId = null;
         try {
             longId = Long.valueOf(id);
@@ -238,6 +263,13 @@ public class MilestoneController {
         MessageController.sendToSpecificUser(new Notification(null, milestoneService.getTitleById(longId), "delete",
                 userService.getUserListByGroup("CCレモン"), getUser(model)));
         milestoneService.deleteById(longId);
+
+        List<UserTokenEntity> userTokens = userTokenService.findAll();
+        Note note = new Note("お知らせ", "マイルストーンが削除されました", "/milestones");
+        for (int i = 0; i < userTokens.size(); i++) {
+            firebaseMessagingService.send(note, userTokens.get(i).getToken());
+        }
+
         return "redirect:/milestones";
     }
 

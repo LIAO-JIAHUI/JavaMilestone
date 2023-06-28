@@ -16,4 +16,5 @@ public class SignupForm {
     @Pattern(regexp = "^[a-zA-Z0-9]*$")
     @NotNull
     private String password;
+    private String token;
 }
