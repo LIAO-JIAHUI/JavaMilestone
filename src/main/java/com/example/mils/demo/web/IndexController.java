@@ -22,11 +22,12 @@ public class IndexController {
     private final MilestoneService milestoneService;
 
     @GetMapping("/")
-    public ModelAndView index(ModelAndView modelAndView) {
-        modelAndView.setViewName("index");
-        modelAndView.addObject("SignupForm", new SignupForm());
+    public String index(Model model) {
+        // modelAndView.setViewName("index");
+        // modelAndView.addObject("SignupForm", new SignupForm());
+        model.addAttribute("SignupForm", new SignupForm());
 
-        return modelAndView;
+        return "index";
     }
 
     @GetMapping("/login")
@@ -44,6 +45,17 @@ public class IndexController {
         return "debug";
     }
 
+    /**
+     * milestone list in dashboard
+     * 
+     * @param model
+     * @param title
+     * @param author
+     * @param status
+     * @param orderBy
+     * @param order
+     * @return
+     */
     @GetMapping("/dashboard")
     public String showDashboard(Model model,
             @RequestParam(required = false) String title,
@@ -59,7 +71,7 @@ public class IndexController {
         model.addAttribute("order", order);
         UserGlobalEntity user = (UserGlobalEntity) model.getAttribute("userHash");
         List<MilestoneEntity> milestoneList = milestoneService.search(title, user.getUsername(), status, orderBy,
-                order);
+                order, user.getUsername());
         model.addAttribute("milestoneList", milestoneList);
         return "dashboard";
     }

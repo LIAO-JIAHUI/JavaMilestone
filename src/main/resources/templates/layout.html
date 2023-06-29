@@ -31,6 +31,18 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@200;300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        font-family: "Noto Sans JP", sans-serif;
+      }
+    </style>
+
     <script th:src="@{/js/app.js}"></script>
 
     <title layout:title-pattern="$CONTENT_TITLE | $LAYOUT_TITLE">
@@ -39,11 +51,11 @@
   </head>
   <body class="d-flex flex-column min-vh-100">
     <nav
-      class="navbar navbar-expand-lg"
+      class="navbar navbar-expand-lg sticky-top"
       th:classappend="${userHash} and ${userHash.isDark}? ' navbar-dark bg-dark' : ' navbar-light bg-light'"
     >
       <div class="container-fluid">
-        <a class="navbar-brand" th:href="${userHash}?@{/dashboard}:@{/}">
+        <a class="navbar-brand" th:href="@{/}">
           <img
             th:unless="${userHash}"
             class="mx-2"
@@ -62,35 +74,20 @@
           />
           Milestone APP</a
         >
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div
+          class="collapse navbar-collapse"
+          id="navbarSupportedContent"
+          th:if="${userHash}"
+        >
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a
-                href="./milestones/list.html"
-                th:href="@{/milestones}"
-                class="nav-link"
-                >ListView</a
-              >
+              <a th:href="@{/dashboard}" class="nav-link">Dashboard</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
+              <a th:href="@{/milestones}" class="nav-link">List</a>
             </li>
             <li class="nav-item">
-              <a
-                href="./milestones/list.html"
-                th:href="@{/milestones}"
-                class="nav-link"
-                >ListView</a
-              >
-              <a class="dropdown-item" th:href="@{/user/profile}">Profile</a>
-            </li>
-            <li class="nav-item">
-              <a class="dropdown-item" th:href="@{/milestones}"
-                >Milestone List<i class="fas fa-sun"></i
-              ></a>
-            </li>
-            <li class="nav-item">
-              <a class="dropdown-item" th:href="@{/milestones/gantt}">gantt</a>
+              <a class="nav-link" th:href="@{/milestones/gantt}">Gantt</a>
             </li>
           </ul>
         </div>
@@ -119,21 +116,10 @@
               >
             </button>
             <!-- ドロップメニューの設定 -->
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu dropdown-menu-end">
               <li>
                 <a class="dropdown-item" th:href="@{/user/profile}">Profile</a>
               </li>
-              <li>
-                <a class="dropdown-item" th:href="@{/milestones}"
-                  >Milestone List<i class="fas fa-sun"></i
-                ></a>
-              </li>
-              <li>
-                <a class="dropdown-item" th:href="@{/milestones/gantt}"
-                  >gantt</a
-                >
-              </li>
-
               <th:block
                 th:if="${userHash} and ${#lists.contains(userHash.roles,'ROLE_ADMIN')}"
               >

@@ -13,7 +13,8 @@ import lombok.RequiredArgsConstructor;
 public class MilestoneService {
     private final MilestoneRepository milestoneRepository;
 
-    public List<MilestoneEntity> search(String title, String author, String status, String orderBy, String order) {
+    public List<MilestoneEntity> search(String title, String author, String status, String orderBy, String order,
+            String username) {
         List<String> expectedOrderBy = Arrays.asList("author", "title", "status", "schedule_at", "deadline_at");
         List<String> expectedOrder = Arrays.asList("asc", "desc");
         title = getLikeStatement(title);
@@ -23,11 +24,11 @@ public class MilestoneService {
             orderBy = "id";
         if (order == null || !expectedOrder.contains(order))
             order = "asc";
-        return milestoneRepository.search(title, author, status, orderBy, order);
+        return milestoneRepository.search(title, author, status, orderBy, order, username);
     }
 
     public double getCompletionRate(String status) {
-        List<MilestoneEntity> milestoneList = this.search(null, null, null, null, null);
+        List<MilestoneEntity> milestoneList = this.search(null, null, null, null, null, null);
 
         double statusCount = milestoneList.stream().filter(i -> i.getStatus().equals(status)).count();
         double completionRate = (double) (statusCount / milestoneList.size());

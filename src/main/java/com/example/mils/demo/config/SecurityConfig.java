@@ -35,7 +35,7 @@ public class SecurityConfig {
                                 .authorizeHttpRequests(authz -> authz
                                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
                                                 .permitAll()
-                                                .requestMatchers("/ws/**", "/", "/login", "/user/**",
+                                                .requestMatchers("/ws/**", "/", "/login", "/user/**", "/error",
                                                                 "/firebase-messaging-sw.js")
                                                 .permitAll()
                                                 .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**"))

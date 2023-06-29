@@ -8,9 +8,9 @@ import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface MilestoneRepository {
-    @Select("select m.ID,m.AUTHOR,m.group_id,g.name,m.TITLE,m.DESCRIPTION,m.STATUS,m.SCHEDULE_AT,m.DEADLINE_AT,m.CREATED_AT,m.UPDATED_AT from milestones as m join groups as g where m.group_id=g.id and m.title like #{title} and m.author like #{author} and m.status like #{status} order by m.${orderBy} ${order}")
+    @Select("select m.ID,m.AUTHOR,m.group_id,g.name,m.TITLE,m.DESCRIPTION,m.STATUS,m.SCHEDULE_AT,m.DEADLINE_AT,m.CREATED_AT,m.UPDATED_AT from milestones as m join groups as g on m.group_id=g.id join group_user as gu on gu.group_id = m.group_id where gu.username = #{username} and m.title like #{title} and m.author like #{author} and m.status like #{status} order by m.${orderBy} ${order}")
     List<MilestoneEntity> search(String title, String author, String status, @Param("orderBy") String orderBy,
-            @Param("order") String order);
+            @Param("order") String order, String username);
 
     // TODO: 一個しか取らないからjoinじゃなくてsub queryのほうがいいかも
     @Select("select m.ID,m.AUTHOR,m.group_id,g.name,m.TITLE,m.DESCRIPTION,m.STATUS,m.SCHEDULE_AT,m.DEADLINE_AT,m.CREATED_AT,m.UPDATED_AT from milestones as m join groups as g where m.group_id=g.id and m.id=#{id}")

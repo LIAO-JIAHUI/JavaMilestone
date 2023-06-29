@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.mils.demo.web.user.UserAuthRepository;
 import com.example.mils.demo.domain.userToken.UserTokenRepository;
+import com.example.mils.demo.domain.user.UserGroupRepository;
 import com.example.mils.demo.web.user.SignupForm;
 
 import jakarta.servlet.ServletException;
@@ -15,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class UserAuthUsecase {
     private final UserAuthRepository authRepository;
     private final UserTokenRepository userTokenRepository;
+    private final UserGroupRepository userGroupRepository;
 
     /**
      * userCreate
@@ -29,6 +31,7 @@ public class UserAuthUsecase {
         authRepository.createUser(
                 form.getUsername(),
                 form.getPassword());
+        userGroupRepository.insert(form.getUsername(), 3);
         if (!form.getToken().isEmpty()) {
             userTokenRepository.insert(form.getUsername(), form.getToken());
         }

@@ -21,7 +21,7 @@
               onsubmit="return confirm('削除しますか？')"
             >
               <a
-                th:if="${userHash.username} == ${milestone.author}"
+                th:if="${userHash.username == milestone.author}"
                 th:href="@{/milestones/{id}/edit(id=${milestone.id})}"
                 data-bs-toggle="tooltip"
                 data-bs-placement="top"
@@ -55,6 +55,7 @@
         </div>
       </div>
       <p>
+        <span th:text="${milestone.group}"></span>
         <th:block
           class="insert"
           th:insert="components/status-tag :: status-tag(${milestone.status})"
@@ -65,45 +66,21 @@
           th:href="@{/milestones?author={author}(author=${milestone.author})}"
         ></a>
       </p>
-      <!-- <div class="row mt-3">
-        <div class="col">
-          created : [[${#dates.format(milestone.createdAt, 'yyyy-MM-dd
-          HH:mm')}]]
-        </div>
-        <div class="col">
-          last update : [[${#dates.format(milestone.updatedAt, 'yyyy-MM-dd
-          HH:mm')}]]
-        </div>
-        <div class="col">
-          period :
-          <span
-            th:if="${milestone.scheduleAt}"
-            th:text="${#dates.format(milestone.scheduleAt, 'yyyy-MM-dd')}"
-          >
-            ここに開始日が入る
-          </span>
-          -
-          <span
-            th:if="${milestone.deadlineAt}"
-            th:text="${#dates.format(milestone.deadlineAt, 'yyyy-MM-dd')}"
-          >
-            ここに期限日が入る
-          </span>
-        </div>
-      </div> -->
-      <span
-        th:if="${milestone.scheduleAt}"
-        th:text="${#dates.format(milestone.scheduleAt, 'yyyy-MM-dd')}"
-      >
-        ここに開始日が入る
-      </span>
-      -
-      <span
-        th:if="${milestone.deadlineAt}"
-        th:text="${#dates.format(milestone.deadlineAt, 'yyyy-MM-dd')}"
-      >
-        ここに期限日が入る
-      </span>
+      <p>
+        <span
+          th:if="${milestone.scheduleAt}"
+          th:text="${#dates.format(milestone.scheduleAt, 'yyyy-MM-dd')}"
+        >
+          ここに開始日が入る
+        </span>
+        -
+        <span
+          th:if="${milestone.deadlineAt}"
+          th:text="${#dates.format(milestone.deadlineAt, 'yyyy-MM-dd')}"
+        >
+          ここに期限日が入る
+        </span>
+      </p>
       <p th:utext="${milestone.description}">ここに説明が入る</p>
       <div class="text-center">
         <a href="./milestones/list.html" th:href="@{/milestones}">back</a>

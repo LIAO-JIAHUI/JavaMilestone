@@ -2,7 +2,7 @@ package com.example.mils.demo.web.user;
 
 import lombok.Data;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
@@ -10,11 +10,11 @@ import jakarta.validation.constraints.Size;
 public class SignupForm {
     @Size(max = 20)
     @Pattern(regexp = "^[a-zA-Z0-9]*$")
-    @NotNull
+    @NotBlank
     private String username;
     @Size(max = 64)
     @Pattern(regexp = "^[a-zA-Z0-9]*$")
-    @NotNull
+    @NotBlank
     private String password;
     private String token;
 }

@@ -22,7 +22,7 @@
         <div class="col">
           所属グループ一覧:
           <ul th:if="${userHash}" th:each="group : ${userHash.groups}">
-            <li th:text="${group.name} + ${group.role}"></li>
+            <li th:text="${group.name} + ' ' + ${group.role}"></li>
           </ul>
         </div>
       </div>
