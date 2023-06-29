@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import java.util.*;
 
+import com.example.mils.demo.domain.user.UserGroupEntity;
+
 @AllArgsConstructor
 @Data
 public class UserGlobalEntity {
@@ -13,5 +15,5 @@ public class UserGlobalEntity {
     private List<String> roles;
     private Boolean isDark;
     private String iconString;
-    private List<String> groups;
+    private List<UserGroupEntity> groups;
 }

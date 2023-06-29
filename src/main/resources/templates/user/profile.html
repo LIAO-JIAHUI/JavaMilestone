@@ -22,7 +22,7 @@
         <div class="col">
           所属グループ一覧:
           <ul th:if="${userHash}" th:each="group : ${userHash.groups}">
-            <li th:text="${group}"></li>
+            <li th:text="${group.name} + ${group.role}"></li>
           </ul>
         </div>
       </div>
@@ -33,13 +33,13 @@
         enctype="multipart/form-data"
       >
         <div class="text-center my-3">
-        <img
-          th:if="${userHash.iconString} and ${userHash.iconString !=''}"
-          th:src="'data:image/jpeg;base64,' + ${userHash.iconString}"
+          <img
+            th:if="${userHash.iconString} and ${userHash.iconString !=''}"
+            th:src="'data:image/jpeg;base64,' + ${userHash.iconString}"
             class="rounded-circle me-2 mx-auto"
-          style="object-fit: cover; width: 100px; height: 100px"
-          alt="Avatar"
-        />
+            style="object-fit: cover; width: 100px; height: 100px"
+            alt="Avatar"
+          />
         </div>
 
         <div class="input-group mb-3">

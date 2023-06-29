@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.example.mils.demo.domain.user.UserEntity;
+import com.example.mils.demo.domain.user.UserGroupEntity;
 
 @Mapper
 public interface UserRepository {
@@ -19,9 +20,9 @@ public interface UserRepository {
     @Update("update users set icon=#{icon}, display_name=#{displayName} where username=#{userName}")
     void update(String userName, String icon, String displayName);
 
-    @Select("select name from groups where id in (select group_id from group_user where username=#{userName})")
-    List<String> getGroupListByUserName(String userName);
+    @Select("select groups.id,groups.name,group_user.role from group_user join groups on groups.id = group_user.group_id where username = #{userName}")
+    List<UserGroupEntity> getGroupListByUserName(String userName);
 
-    @Select("select username from group_user where group_id = (select id from groups where name=#{group})")
-    List<String> getUserListByGroup(String group);
+    @Select("select username from group_user where group_id = #{id}")
+    List<String> getUserListByGroup(long id);
 }
