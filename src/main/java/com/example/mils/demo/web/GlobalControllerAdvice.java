@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.example.mils.demo.domain.user.UserEntity;
+import com.example.mils.demo.domain.user.UserGroupEntity;
 import com.example.mils.demo.web.user.UserGlobalEntity;
 import com.example.mils.demo.web.user.UserService;
 
@@ -36,11 +37,9 @@ public class GlobalControllerAdvice {
                 }
                 UserEntity user = userService.find(username);
 
-                List<String> groupList = null;
-                groupList = userService.getGroupListByUserName(username);
+                List<UserGroupEntity> groupList = userService.getGroupListByUserName(username);
                 userGlobalEntity = new UserGlobalEntity(username, user.getDisplayName(), roleStrings, user.getIsDark(),
-                        user.getIcon(),
-                        groupList);
+                        user.getIcon(), groupList);
             }
         }
         return userGlobalEntity;

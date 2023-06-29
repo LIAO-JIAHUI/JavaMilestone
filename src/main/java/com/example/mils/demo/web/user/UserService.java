@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.mils.demo.domain.user.GroupEntity;
 import com.example.mils.demo.domain.user.UserEntity;
+import com.example.mils.demo.domain.user.UserGroupEntity;
 
 import lombok.RequiredArgsConstructor;
 // import java.sql.*;
@@ -26,13 +28,13 @@ public class UserService {
         userRepository.update(userName, icon, displayName);
     }
 
-    public List<String> getGroupListByUserName(String userName) {
+    public List<UserGroupEntity> getGroupListByUserName(String userName) {
         return userRepository.getGroupListByUserName(userName);
     }
 
-    public List<String> getUserListByGroup(String group) {
+    public List<String> getUserListByGroup(long id) {
         List<String> groupList = null;
-        groupList = userRepository.getUserListByGroup(group);
+        groupList = userRepository.getUserListByGroup(id);
         return groupList;
     }
 }

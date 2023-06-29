@@ -54,14 +54,15 @@
           <select
             id="groupInput"
             type="text"
-            th:field="*{group}"
+            th:field="*{groupId}"
             class="form-select"
           >
-            <th:block th:each="uHashgroups : ${userHash.groups}">
+            <th:block th:each="userGroups : ${userHash.groups}">
               <option
-                th:text="${uHashgroups}"
-                th:value="${uHashgroups}"
-                th:selected="${group} ? ${group == Hashgroups}"
+                th:if="${userGroups.role != viewer}"
+                th:text="${userGroups.name}"
+                th:value="${userGroups.id}"
+                th:selected="${group} ? ${group == userGroups}"
               ></option
             ></th:block>
           </select>

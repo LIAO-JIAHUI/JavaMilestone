@@ -29,11 +29,12 @@ public interface MilestoneRepository {
     // (#{title},#{description})")
     // void insert(String title, String description);
     // FIXME : group_idが固定値
-    @Insert("insert into milestones (author, title, description, status, schedule_at, deadline_at,group_id) values (#{author},#{title},#{description},#{status},#{scheduleAt},#{deadlineAt},1)")
+    @Insert("insert into milestones (author, title, description, status, schedule_at, deadline_at,group_id) values (#{author},#{title},#{description},#{status},#{scheduleAt},#{deadlineAt},#{groupId})")
     // @Options(useGeneratedKeys = true, keyProperty = "id")
-    void insert(String author, String title, String description, String status, Date scheduleAt, Date deadlineAt);
+    void insert(String author, String title, String description, String status, Date scheduleAt, Date deadlineAt,
+            long groupId);
 
-    @Insert("insert into milestones (author, title, description, status, schedule_at, deadline_at,group_id) values (#{author},#{title},#{description},#{status},#{scheduleAt},#{deadlineAt},1)")
+    @Insert("insert into milestones (author, title, description, status, schedule_at, deadline_at,group_id) values (#{author},#{title},#{description},#{status},#{scheduleAt},#{deadlineAt},#{group_id})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void insertByEntity(MilestoneEntity milestoneEntity);
 }
