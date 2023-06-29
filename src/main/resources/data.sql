@@ -25,13 +25,13 @@ INSERT INTO AUTHORITIES (USERNAME, AUTHORITY) VALUES ('user', 'ROLE_USER');
 
 INSERT INTO groups (name) values('CCレモン'),('Aぇ! group'),('BB弾');
 
-INSERT INTO group_user(group_id,username,role) values(1,'arakawa','owner'),(1,'sugimori','owner'),(1,'liao','owner'),(2,'arakawa','editor');
+INSERT INTO group_user(group_id,username,role) values(1,'arakawa','owner'),(1,'sugimori','owner'),(1,'liao','owner'),(2,'arakawa','editor'),(2,'sugimori','editor'),(2,'liao','editor');
 
 INSERT INTO user_tokens(username,token)
 values
 ('liao','ePAtt9cNogFim1hQlfgPVk:APA91bFSjBkZg0W8-jCYIGpWHZBHdBVhGQGnKMCuVsTUkbdzz-Vl4_D1dd4LRbU4-eQ0eN_jvHraN_seP6qp2Lv5ruDhM-lgQtzDe8KP_JouV_0s1ZrcKBasxlJNdPufPg2FevUzCGou'),
 ('arakawa','cIeRy7_-_MN2N8eorISpDP:APA91bGEolbz2zplPT2JB_Wk_XgsH6sdmYIxUCLmBXiSCs5gyd8NqoD7Ov2wo4PVP9l2XWYzMXfO-rJEwZWk9PvPPzqq3O7BsXGONgQ8-sjFeWVm6YzM98ThKw5IXI4Q3bQLLcvGJR2X'),
-('sugimori','dnk90eXlb_1MuYUqy2s60i:APA91bGFHlM8lbhqu6DimewTOgoS9Vu2UtiyvanlD9Y_ukhgkqVtfRWS8i6vMd_ufbbsNstN8WKV4LEQA879M4SNkIEWEk8QHeg-kc2rZBn7pDj-3Sr0tjWFF3Xd0VEyoMEXl4WHhaR2');
+('sugimori','ezQYe9RWSKqmsh_7K8Z8st:APA91bF6r1HPMH82T5tWqSvtRS3uTKV4HFx-E6pkQemDpEuU-5Y9tCiftaGEsy063BVenfjgYWoZSzHW8Q8lUP8XT6E29x-ycK5G00edRYNBneDWtkzaDp0bvl8RwjqJ7gn7BugXTW4Z');
 
 INSERT INTO milestones (author, title, description, status, group_id, schedule_at, deadline_at)
 VALUES
@@ -42,10 +42,10 @@ VALUES
 ,('user','H2コンソールへのアクセス', 'H2コンソールへログインできる', 'done', 1,'2023-6-20', '2023-6-23')
 ,('arakawa','マイルストーンの編集', 'マイルストーンの編集ができる', 'done', 1,'2023-6-21', '2023-6-24')
 ,('sugimori','マイルストーンの削除', 'マイルストーンの削除ができる', 'done', 1, '2023-6-21', '2023-6-24')
-,('liao','全ページでユーザー名が表示', '全ページでユーザー名が表示される', 'done', 1, '2023-6-22', '2023-6-25')
-,('liao','ユーザーアイコンをアップロード', 'ユーザーアイコンをアップロードできる', 'done', 1, '2023-6-22', '2023-6-25')
-,('user','マイルストーンを並び替え', 'マイルストーンを並び替えできる', 'done', 1, '2023-6-22', '2023-6-25')
-,('sugimori','マイルストーンを複製', 'マイルストーンを複製できる', 'done', 1, '2023-6-22', '2023-6-25')
+,('liao','ユーザー表示', '全ページの右上にユーザー名とアイコンが表示される', 'done', 1, '2023-6-22', '2023-6-25')
+,('liao','ユーザーアイコンのアップロード', 'ユーザーアイコンをアップロードできる', 'done', 1, '2023-6-22', '2023-6-25')
+,('user','マイルストーンの並び替え', 'マイルストーンを並び替えできる', 'done', 1, '2023-6-22', '2023-6-25')
+,('sugimori','マイルストーンの複製', 'マイルストーンを複製できる', 'done', 1, '2023-6-22', '2023-6-25')
 ,('user','ダークモードに切り替え', 'ダークモードに切り替えられる', 'done', 1, '2023-6-23', '2023-6-26')
 ,('liao','検索/フィルタ/並び替え', 'マイルストーンを検索/フィルターできる', 'done', 1, '2023-6-26', '2023-6-28'),
 ('sugimori','マイルストーンのガントチャート表示', 'マイルストーンをガントチャート表示できる', 'done', 1, '2023-6-26', '2023-6-28'),
@@ -53,7 +53,10 @@ VALUES
 ('sugimori','デスクトップ通知', 'WEBプッシュで通知される', 'done', 1, '2023-6-27', '2023-6-29'),
 ('arakawa','ユーザーをグループで管理', 'ユーザーをグループで管理できる', 'done', 1, '2023-6-27', '2023-6-29'),
 ('arakawa','マイルストーンをカテゴリー化', 'マイルストーンをカテゴリー化できる', 'in-progress', 1, '2023-6-27', '2023-6-29'),
-('arakawa','多言語対応', '多言語対応', 'todo', 1, '2023-7-1', '2023-7-2');
+('arakawa','多言語対応', '多言語対応', 'todo', 1, '2023-7-1', '2023-7-2'),
+('sugimori','マイルストーン１', 'マイルストーンをガントチャート表示できる', 'done', 2, '2023-6-26', '2023-6-28'),
+('liao','マイルストーン２', 'websocketを用いてリアルタイムでブラウザ上に通知される。同じグループのメンバーのみ通知する。', 'todo', 2, '2023-6-27', '2023-6-29'),
+('sugimori','マイルストーン３', 'WEBプッシュで通知される', 'in-progress', 2, '2023-6-27', '2023-6-29');
 
 
 -- INSERT INTO milestones (author, title, description, status, group_id, schedule_at, deadline_at) 

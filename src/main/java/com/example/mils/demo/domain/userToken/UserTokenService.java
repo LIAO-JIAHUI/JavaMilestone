@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 public class UserTokenService {
     private final UserTokenRepository userTokenRepository;
 
-    public List<UserTokenEntity> findAll() {
-        return userTokenRepository.findAll();
+    public List<UserTokenEntity> whereNotAll(String username) {
+        return userTokenRepository.whereNotAll(username);
     }
 }

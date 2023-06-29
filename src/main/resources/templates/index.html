@@ -103,7 +103,7 @@
       <!-- 機能一覧の項目、以下のセクションとどっちがいいか検討 -->
 
       <section class="container px-4 py-5 border-bottom">
-        <h2 class="pb-2 border-bottom">機能一覧</h2>
+        <h2 class="fw-bold text-center">機能一覧</h2>
         <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
           <div class="col d-flex align-items-start">
             <div
@@ -161,7 +161,7 @@
             <div>
               <h3 class="fs-2 text-body-emphasis">通知</h3>
               <p>
-                マイルストーンの作成、変更、削除が行われると、リアルタイム通知やWEBプッシュ通知によってすぐにお知らせします。重要なプロジェクト情報を見逃さず、素早く対応しましょう。正確な情報共有で、プロジェクトの成果を最大化します。
+                マイルストーンの作成、変更、削除が行われると、リアルタイム通知によってすぐにお知らせします。重要なプロジェクト情報を見逃さず、素早く対応しましょう。正確な情報共有で、プロジェクトの成果を最大化します。
               </p>
             </div>
           </div>
@@ -273,48 +273,51 @@
 
       <!-- メンバー紹介 -->
       <section class="container px-4 py-5 border-bottom">
-        <h2 class="fw-bold text-center">Cグループメンバー</h2>
+        <h2 class="fw-bold text-center mb-5">Cグループメンバー</h2>
         <div class="container">
           <div class="row">
             <div class="col-lg-4 text-center">
               <img
                 th:src="@{/images/arakawa.jpg}"
-                class="rounded-circle my-3"
+                class="rounded-3 my-3 border"
                 style="object-fit: cover; width: 120px; height: 120px"
               />
 
               <h2 class="mt-2">荒川 泰知</h2>
+              <p>株式会社PLAY</p>
               <p>画面構成など主にフロントエンドを担当</p>
             </div>
             <div class="col-lg-4 text-center">
               <img
                 th:src="@{/images/sugimori.jpg}"
-                class="rounded-circle my-3"
+                class="rounded-3 my-3 border"
                 style="object-fit: cover; width: 120px; height: 120px"
               />
 
               <h2 class="mt-2">杉森 康太</h2>
+              <p>株式会社PLAY</p>
               <p>デスクトップ通知など主にバックエンドを担当</p>
             </div>
             <div class="col-lg-4 text-center">
               <img
                 th:src="@{/images/liao.png}"
-                class="rounded-circle my-3"
+                class="rounded-3 my-3 border"
                 style="object-fit: cover; width: 120px; height: 120px"
               />
 
               <h2 class="mt-2">廖 嘉慧</h2>
-              <p>リアルタイム通知など主にバックエンドを担当</p>
+              <p>株式会社マップクエスト</p>
+              <p>ブラウザ通知など主にバックエンドを担当</p>
             </div>
           </div>
         </div>
       </section>
 
       <!-- 機能セクション -->
-      <section class="container px-4 pt-5">
+      <section class="container px-4 pt-5 border-bottom">
         <!-- <h2 class="pb-2 border-bottom">開発環境・ツール</h2> -->
-        <h2 class="fw-bold text-center">開発環境・ツール</h2>
-        <div class="mb-4 p-2 border rounded">
+        <h2 class="fw-bold text-center mb-3">開発環境・ツール</h2>
+        <div class="mb-4 p-2 rounded">
           <p class="fw-bold ps-3">開発環境</p>
           <div class="container">
             <div class="row gy-2">
@@ -356,7 +359,7 @@
             </div>
           </div>
         </div>
-        <div class="mb-4 p-2 border rounded">
+        <div class="mb-4 p-2 rounded">
           <p class="fw-bold ps-3">プログラミング言語</p>
           <div class="container">
             <div class="row gy-2">
@@ -391,7 +394,7 @@
             </div>
           </div>
         </div>
-        <div class="mb-4 p-2 border rounded">
+        <div class="mb-4 p-2 rounded">
           <p class="fw-bold ps-3">フロントエンドフレームワーク・ライブラリ</p>
           <div class="container">
             <div class="row gy-2">
@@ -426,7 +429,7 @@
             </div>
           </div>
         </div>
-        <div class="mb-4 p-2 border rounded">
+        <div class="mb-4 p-2 rounded">
           <p class="fw-bold ps-3">バックエンドフレームワーク・ライブラリ</p>
           <div class="container">
             <div class="row gy-2">
@@ -457,8 +460,8 @@
       </section>
 
       <section class="container px-4 py-5 border-bottom">
-        <h2 class="fw-bold text-center">テーブル構成</h2>
-        <div class="text-center">
+        <h2 class="fw-bold text-center mb-5">テーブル構成</h2>
+        <div class="text-center mt-2">
           <img
             th:src="@{/images/ER.png}"
             class="img-fluid border rounded-3 shadow-lg mb-4"
@@ -471,36 +474,51 @@
       </section>
 
       <section class="container px-4 py-5 border-bottom">
-        <h2 class="fw-bold text-center">開発過程で遭遇した課題とその解決策</h2>
+        <h2 class="fw-bold text-center mb-5">
+          開発過程で遭遇した課題とその解決策
+        </h2>
         <!-- 工夫した点？ -->
-        <div class="container mt-4">
-          <div class="row row-cols-1 row-cols-lg-3">
+        <div class="container">
+          <div class="row row-cols-1 row-cols-lg-2 gy-3 gx-5">
             <div class="col">
               <h3 class="fs-4 text-body-emphasis">
                 DBで自動生成したキーの取得
               </h3>
-              解決方法
+              <small class="text-muted">解決方法 : </small>
               <p>
-                <code>@Mapper</code> に
+                <code>@Mapper</code> を付けたインターフェースのメソッドに<br />
                 <code
                   >@Options(useGeneratedKeys = true, keyProperty = "id")</code
-                >を付けて、返り値を受け取る <br />
-                戻り値は引数に格納される
+                >を付けることで戻り値で受け取ることができ、この戻り値は引数に格納される
+              </p>
+            </div>
+            <div class="col">
+              <h3 class="fs-4 text-body-emphasis">バリデーションチェック</h3>
+              <small class="text-muted">解決方法 : </small>
+              <p>
+                <code
+                  >@Validated MilestoneForm milestoneForm, BindingResult
+                  bindingResult</code
+                ><br />
+                データバインディングする引数は、チェックしたい引数の直後に入れる必要があった
               </p>
             </div>
             <div class="col">
               <h3 class="fs-4 text-body-emphasis">ブラウザ通知の表示</h3>
-              解決方法
+              <small class="text-muted">解決方法 : </small>
               <p>
-                JSでソケットを作って、springのmessagingと使って同じエンドポイントへ通知を送信する。
+                JavaScriptでソケットを作って、Spring
+                Messagingを使って同じエンドポイントへ通知を送信する
               </p>
             </div>
             <div class="col">
               <h3 class="fs-4 text-body-emphasis">デスクトップ通知の表示</h3>
-              解決方法
+              <small class="text-muted">解決方法 : </small>
               <p>
                 デスクトップ通知を検知することはできても、それを表示する必要がある<br />
-                ドキュメントルートに ServiceWorker(firebase-messaging-sw.js)
+                ドキュメントルートに<code
+                  >ServiceWorker(firebase-messaging-sw.js)</code
+                >
                 の設置を行うことで通知を検知<br />
                 ServiceWorkerはバックグラウンドで動くイベント駆動のJavaScript環境なので、リロード等しなくとも通知を検知可能
               </p>
@@ -510,19 +528,25 @@
       </section>
 
       <section class="container px-4 py-5 border-bottom">
-        <h2 class="fw-bold text-center">チームの協力とコミュニケーション</h2>
+        <h2 class="fw-bold text-center mb-3">
+          チームの協力とコミュニケーション
+        </h2>
 
         <div class="container">
-          <div class="row flex-lg-row align-items-center g-5 py-3">
+          <div
+            class="row flex-lg-row row-cols-1 row-cols-md-2 align-items-center g-5 py-3"
+          >
             <div class="col">
               <h2>Slackスレッド</h2>
               <p>
-                Slackのグループスレッドでは、700件以上の返信があり日々の議論を可視化していた<br />
+                Slackのグループスレッドを駆使し日々の議論を可視化していた。プロジェクトに関連する議論やアイデアを継続的に共有するだけでなく
+                700件以上の返信があるほど活発にスレッド内でコミュニケーションを行った。<br />
+                これにより、メンバー間の親密さと信頼関係を築きアイデアの発展や問題の解決がスムーズに進んだ。
               </p>
               <div class="text-center">
                 <a
                   href="https://bootcamp-open2023.slack.com/archives/C04P93WKMSA/p1686545229865359"
-                  class="btn btn-primary"
+                  class="btn btn-secondary"
                   ><i class="bi bi-slack"></i> グループスレッド</a
                 >
               </div>
@@ -542,10 +566,15 @@
         </div>
 
         <div class="container">
-          <div class="row flex-lg-row-reverse align-items-center g-5 py-3">
+          <div
+            class="row flex-lg-row-reverse row-cols-1 row-cols-md-2 align-items-center g-5 py-3"
+          >
             <div class="col">
-              <h2>Spread Sheet による進捗管理</h2>
-              <p>スプシで進捗管理をした</p>
+              <h2>SpreadSheet による進捗管理</h2>
+              <p>
+                進行中のタスクや各タスクの優先順位を明確にし、全員が視覚的に把握できるように工夫。
+                リアルタイムでの更新や共有により、チーム全体での進捗状況を容易に把握できた。
+              </p>
             </div>
 
             <div class="col">
@@ -561,29 +590,17 @@
           </div>
         </div>
         <div class="container">
-          <div class="row flex-lg-row align-items-center g-5 py-3">
+          <div
+            class="row flex-lg-row row-cols-1 row-cols-md-2 align-items-center g-5 py-3"
+          >
             <div class="col">
-              <h2>Live Share を用いた並行同時開発</h2>
-              <div>
-                メリット
-                <ul>
-                  <li>同時編集</li>
-                  <li>助け合いやすい</li>
-                  <li>
-                    gitと比べて、土台ができていない初期の状態ではコンフリクトが起きにくい
-                  </li>
-                </ul>
-                デメリット
-                <ul>
-                  <li>
-                    オートコンプリートやファイルアップロードなど、オーナーしかできない操作がある
-                  </li>
-                  <li>同じところを編集すると壊れる恐れがある</li>
-                  <li>
-                    自分のエラーで止まっているのか他の人の作業中で止まっているのかがわからないことがあり作業が止まる
-                  </li>
-                </ul>
-              </div>
+              <h2>Visual Studio Live Share を用いた<br />並行同時開発</h2>
+              <p>
+                ソースコードを同時編集することにより、問題が起きても助け合うことができた。
+                オートコンプリートやファイルアップロードなどのオーナーしかできない操作があったり、誰のエラーかがわからないことがあり作業が止まることがあった。
+                しかし土台ができていない初期の状態や技術の理解が浅い場合では、Gitを使用するとコンフリクトが起きやすそうだったのでLive
+                Shareを用いたのは良い選択だった。
+              </p>
             </div>
 
             <div class="col">
@@ -600,17 +617,44 @@
         </div>
       </section>
       <section class="container px-4 py-5">
-        <h2 class="fw-bold text-center">技術的な成長</h2>
-        <p>
-          spring
-          bootを扱うのは初めてだが、reactなどの開発経験があったため、比較的スムーズに進められた。<br />
-          三層アーキテクチャを体験できた。<br />
-          リポジトリ ( <code>Mapper</code> ) 、サービス、コントロール
-          DBとの接続、データの処理、表示の役割ごとに分けることで、再利用性や柔軟性と拡張性の向上に繋がった。
-          <br />フロントエンドとバックエンドの両方を体験できた。
-        </p>
-        <p>ユーザーの要求を深堀でき、それ以外の機能を提案・実装できた</p>
-        <p>自分たちがユーザーの視点をたち、どの機能が最低限に</p>
+        <h2 class="fw-bold text-center mb-5">開発を通して得たこと</h2>
+        <div class="container mt-3">
+          <div
+            class="row justify-content-center row-cols-lg-3 row-cols-md-2 row-cols-1 gy-5 gx-5"
+          >
+            <div class="col">
+              <h3 class="fs-4 text-body-emphasis">初めてのSpring</h3>
+              <p>
+                チーム開発において、初めてJava +
+                Springフレームワークを利用して開発を行い、フロントエンドとバックエンドの両方の経験を積むことができた。
+              </p>
+            </div>
+            <div class="col">
+              <h3 class="fs-4 text-body-emphasis">3層アーキテクチャ</h3>
+              <p>
+                リポジトリ、サービス、コントローラの役割ごとに分ける3層アーキテクチャを実践したことにより、再利用性や柔軟性、拡張性が向上した。
+              </p>
+            </div>
+            <div class="col">
+              <h3 class="fs-4 text-body-emphasis">顧客ニーズ</h3>
+              <p>
+                ユーザーの要求を深堀し、ほんとのニーズを提案・実装することができた。ユーザーの視点に立ち、必要な機能と追加したい機能を検討する能力を習得した。
+              </p>
+            </div>
+            <div class="col">
+              <h3 class="fs-4 text-body-emphasis">タスクマネジメント</h3>
+              <p>
+                すべての要件を工数内に完了させるのが難しいため、優先順位を検討し、スケジュール調整できた。
+              </p>
+            </div>
+            <div class="col">
+              <h3 class="fs-4 text-body-emphasis">チームワーク</h3>
+              <p>
+                こまめなコミュニケーションを通して、認識のズレをなくし、実装時間の短縮やお互いの助け合うことができた。
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   </body>

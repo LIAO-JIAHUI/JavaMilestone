@@ -122,7 +122,7 @@ public class MilestoneController {
                     "create", userService.getUserListByGroup(Long.parseLong(milestoneForm.getGroupId())),
                     getUser(model)));
             // firebase通知
-            List<UserTokenEntity> userTokens = userTokenService.findAll();
+            List<UserTokenEntity> userTokens = userTokenService.whereNotAll(getUser(model));
             Note note = new Note("お知らせ", user.getUsername() + "が「" + milestoneEntity.getTitle() + "」を作成しました",
                     "/milestones/" + insertId);
             try {
@@ -218,9 +218,9 @@ public class MilestoneController {
                 milestoneForm.getStatus(), milestoneForm.getScheduleAt(), milestoneForm.getDeadlineAt());
         // ブラウザ通知
         MessageController.sendToSpecificUser(new Notification(id, milestoneForm.getTitle(), "edit",
-                userService.getUserListByGroup(Long.parseLong(milestoneForm.getGroupId())), getUser(model)));
+                userService.getUserListByGroup(milestone.getGroup_id()), getUser(model)));
         // firebase通知
-        List<UserTokenEntity> userTokens = userTokenService.findAll();
+        List<UserTokenEntity> userTokens = userTokenService.whereNotAll(getUser(model));
         Note note = new Note("お知らせ", getUser(model) + "が「" + milestone.getTitle() + "」を編集しました",
                 "/milestones/" + milestone.getId());
         for (int i = 0; i < userTokens.size(); i++) {
@@ -256,7 +256,7 @@ public class MilestoneController {
                 userService.getUserListByGroup(milestone.getGroup_id()), getUser(model)));
         milestoneService.deleteById(longId);
 
-        List<UserTokenEntity> userTokens = userTokenService.findAll();
+        List<UserTokenEntity> userTokens = userTokenService.whereNotAll(getUser(model));
         Note note = new Note("お知らせ", getUser(model) + "が「" + milestone.getTitle() + "」を削除しました", "/milestones");
         for (int i = 0; i < userTokens.size(); i++) {
             firebaseMessagingService.send(note, userTokens.get(i).getToken());

@@ -8,8 +8,8 @@ import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface UserTokenRepository {
-    @Select("SELECT * FROM user_tokens")
-    List<UserTokenEntity> findAll();
+    @Select("SELECT * FROM user_tokens WHERE username != #{username}")
+    List<UserTokenEntity> whereNotAll(String username);
 
     @Insert("INSERT INTO user_tokens (username, token) VALUES (#{username}, #{token})")
     void insert(String username, String token);
