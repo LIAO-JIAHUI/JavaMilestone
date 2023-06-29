@@ -34,21 +34,15 @@ public class MilestoneController {
     private final UserTokenService userTokenService;
 
     /**
-     * showList
-     * 全てのマイルストーンをSQLで取得してリストページに表示
-     * フィルタ、検索、並び替え
+     * showList 全てのマイルストーンをSQLで取得してリストページに表示 フィルタ、検索、並び替え
      * 
      * @param model
      * @return
      */
     @GetMapping
-    public String showList(
-            Model model,
-            @RequestParam(required = false) String title,
-            @RequestParam(required = false) String author,
-            @RequestParam(required = false) String status,
-            @RequestParam(required = false) String orderBy,
-            @RequestParam(required = false) String order) {
+    public String showList(Model model, @RequestParam(required = false) String title,
+            @RequestParam(required = false) String author, @RequestParam(required = false) String status,
+            @RequestParam(required = false) String orderBy, @RequestParam(required = false) String order) {
 
         model.addAttribute("title", title);
         model.addAttribute("author", author);
@@ -69,8 +63,7 @@ public class MilestoneController {
     }
 
     /**
-     * showCreationForm
-     * 作成ページへ遷移
+     * showCreationForm 作成ページへ遷移
      * 
      * @param milestoneForm
      * @return
@@ -96,9 +89,7 @@ public class MilestoneController {
     }
 
     /**
-     * create
-     * 作成ページからのpostを受け取り
-     * 新しいマイルストーンをinsert
+     * create 作成ページからのpostを受け取り 新しいマイルストーンをinsert
      * 
      * @param milestoneForm
      * @param bindingResult
@@ -113,19 +104,16 @@ public class MilestoneController {
             return "milestones/form";
         } else {
             UserGlobalEntity user = (UserGlobalEntity) model.getAttribute("userHash");
-            MilestoneEntity milestoneEntity = milestoneService
-                    .createByEntity(new MilestoneEntity(0, user.getUsername(), 1, milestoneForm.getGroup(),
-                            milestoneForm.getTitle(),
-                            milestoneForm.getDescription(), milestoneForm.getStatus(), milestoneForm.getScheduleAt(),
-                            milestoneForm.getDeadlineAt(),
-                            null, null));
+            MilestoneEntity milestoneEntity = milestoneService.createByEntity(new MilestoneEntity(0, user.getUsername(),
+                    Long.valueOf(milestoneForm.getGroupId()), milestoneForm.getGroupId(), milestoneForm.getTitle(),
+                    milestoneForm.getDescription(), milestoneForm.getStatus(), milestoneForm.getScheduleAt(),
+                    milestoneForm.getDeadlineAt(), null, null));
             long insertId = milestoneEntity.getId();
             model.addAttribute("insertId", insertId);
             // ブラウザ通知
-            MessageController
-                    .sendToSpecificUser(new Notification(String.valueOf(insertId), milestoneForm.getTitle(), "create",
-                            userService.getUserListByGroup(milestoneForm.getGroup()),
-                            getUser(model)));
+            MessageController.sendToSpecificUser(new Notification(String.valueOf(insertId), milestoneForm.getTitle(),
+                    "create", userService.getUserListByGroup(Long.parseLong(milestoneForm.getGroupId())),
+                    getUser(model)));
             // firebase通知
             List<UserTokenEntity> userTokens = userTokenService.findAll();
             Note note = new Note("お知らせ", user.getUsername() + "が「" + milestoneEntity.getTitle() + "」を作成しました",
@@ -138,10 +126,7 @@ public class MilestoneController {
     }
 
     /**
-     * showDetail
-     * 詳細ページへ遷移
-     * ルーティングのidを用いてsqlで一件取得
-     * idはString入力でlong型に変換
+     * showDetail 詳細ページへ遷移 ルーティングのidを用いてsqlで一件取得 idはString入力でlong型に変換
      * 
      * @param id
      * @param model
@@ -165,9 +150,7 @@ public class MilestoneController {
     }
 
     /**
-     * showEditForm
-     * 詳細ページから編集ページへ遷移
-     * idからMilestoneEntity取得し
+     * showEditForm 詳細ページから編集ページへ遷移 idからMilestoneEntity取得し
      * MilestoneFormへ必要な情報を入れてHTMLに渡す
      * 
      * @param milestoneForm
@@ -176,8 +159,8 @@ public class MilestoneController {
      * @return
      */
     @GetMapping("/{id}/edit")
-    public String showEditForm(
-            @ModelAttribute MilestoneForm milestoneForm, @PathVariable("id") String id, Model model) {
+    public String showEditForm(@ModelAttribute MilestoneForm milestoneForm, @PathVariable("id") String id,
+            Model model) {
         Long longId = null;
         try {
             longId = Long.valueOf(id);
@@ -195,9 +178,7 @@ public class MilestoneController {
     }
 
     /**
-     * edit
-     * 編集ページ
-     * 編集が成功したらDBにupdate
+     * edit 編集ページ 編集が成功したらDBにupdate
      * 
      * @param id
      * @param milestoneForm
@@ -222,13 +203,11 @@ public class MilestoneController {
         if (milestone == null || isNotAuthor(model, milestone)) {
             return "redirect:/milestones";
         }
-        milestoneService.update(longId, milestoneForm.getTitle(),
-                milestoneForm.getDescription(),
-                milestoneForm.getStatus(), milestoneForm.getScheduleAt(),
-                milestoneForm.getDeadlineAt());
+        milestoneService.update(longId, milestoneForm.getTitle(), milestoneForm.getDescription(),
+                milestoneForm.getStatus(), milestoneForm.getScheduleAt(), milestoneForm.getDeadlineAt());
         // ブラウザ通知
         MessageController.sendToSpecificUser(new Notification(id, milestoneForm.getTitle(), "edit",
-                userService.getUserListByGroup("CCレモン"), getUser(model)));
+                userService.getUserListByGroup(1), getUser(model)));
         // firebase通知
         List<UserTokenEntity> userTokens = userTokenService.findAll();
         Note note = new Note("お知らせ", getUser(model) + "が「" + milestone.getTitle() + "」を編集しました",
@@ -241,9 +220,7 @@ public class MilestoneController {
     }
 
     /**
-     * delete
-     * 削除アクション
-     * 成功した場合DBにdelete
+     * delete 削除アクション 成功した場合DBにdelete
      * 
      * @param id
      * @param model
@@ -265,7 +242,7 @@ public class MilestoneController {
         }
 
         MessageController.sendToSpecificUser(new Notification(null, milestoneService.getTitleById(longId), "delete",
-                userService.getUserListByGroup("CCレモン"), getUser(model)));
+                userService.getUserListByGroup(1), getUser(model)));
         milestoneService.deleteById(longId);
 
         List<UserTokenEntity> userTokens = userTokenService.findAll();
@@ -278,8 +255,7 @@ public class MilestoneController {
     }
 
     /**
-     * isNotAuthor
-     * 作成者であるか確認する
+     * isNotAuthor 作成者であるか確認する
      * 
      * @param model
      * @param milestone
