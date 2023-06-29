@@ -39,7 +39,7 @@
   </head>
   <body class="d-flex flex-column min-vh-100">
     <nav
-      class="navbar sticky-top"
+      class="navbar navbar-expand-lg"
       th:classappend="${userHash} and ${userHash.isDark}? ' navbar-dark bg-dark' : ' navbar-light bg-light'"
     >
       <div class="container-fluid">
@@ -65,13 +65,36 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
+              <a
+                href="./milestones/list.html"
+                th:href="@{/milestones}"
+                class="nav-link"
+                >ListView</a
+              >
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Link</a>
             </li>
+            <li class="nav-item">
+              <a
+                href="./milestones/list.html"
+                th:href="@{/milestones}"
+                class="nav-link"
+                >ListView</a
+              >
+              <a class="dropdown-item" th:href="@{/user/profile}">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="dropdown-item" th:href="@{/milestones}"
+                >Milestone List<i class="fas fa-sun"></i
+              ></a>
+            </li>
+            <li class="nav-item">
+              <a class="dropdown-item" th:href="@{/milestones/gantt}">gantt</a>
+            </li>
           </ul>
         </div>
+
         <div th:unless="${userHash}">
           <a th:href="@{/login}" class="btn btn-primary">Login</a>
         </div>
