@@ -51,7 +51,7 @@
   </head>
   <body class="d-flex flex-column min-vh-100">
     <nav
-      class="navbar navbar-expand-lg sticky-top"
+      class="navbar navbar-expand-sm sticky-top"
       th:classappend="${userHash} and ${userHash.isDark}? ' navbar-dark bg-dark' : ' navbar-light bg-light'"
     >
       <div class="container-fluid">
@@ -79,7 +79,7 @@
           id="navbarSupportedContent"
           th:if="${userHash}"
         >
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul class="navbar-nav me-auto mb-2 mb-sm-0">
             <li class="nav-item">
               <a th:href="@{/dashboard}" class="nav-link">Dashboard</a>
             </li>
